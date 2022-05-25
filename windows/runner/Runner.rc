@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "io.186282" "\0"
-            VALUE "FileDescription", "ghost_post" "\0"
+            VALUE "FileDescription", "dissipate" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "ghost_post" "\0"
+            VALUE "InternalName", "dissipate" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 io.186282. All rights reserved." "\0"
-            VALUE "OriginalFilename", "ghost_post.exe" "\0"
-            VALUE "ProductName", "ghost_post" "\0"
+            VALUE "OriginalFilename", "dissipate.exe" "\0"
+            VALUE "ProductName", "dissipate" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

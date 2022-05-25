@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.u186282.ghost_post">
+    package="io.u186282.dissipate">
    <application
-        android:label="ghost_post"
+        android:label="dissipate"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

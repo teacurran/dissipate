@@ -1,6 +1,6 @@
 {
-    "name": "ghost_post",
-    "short_name": "ghost_post",
+    "name": "dissipate",
+    "short_name": "dissipate",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
