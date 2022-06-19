@@ -1,17 +1,26 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+import 'firebase_options.dart';
 
-class MyApp extends StatefulWidget {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  runApp(App());
+}
+
+class App extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  State<App> createState() => _AppState();
 }
 
 /// -----------------------------------
 ///              App State
 /// -----------------------------------
 
-class _MyAppState extends State<MyApp> {
+class _AppState extends State<App> {
   bool isBusy = false;
   bool isLoggedIn = false;
   late String errorMessage;

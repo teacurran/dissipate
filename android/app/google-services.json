@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "510014216261",
+    "project_id": "dissipate",
+    "storage_bucket": "dissipate.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510014216261:android:ffd1a99f012c81a2daab2c",
+        "android_client_info": {
+          "package_name": "io.u186282.dissipate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510014216261-nqd97bpm1nh7ifrfuc1aanp5q168n216.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-XyHi-7tSvXchXhAh7nZNmxL3vciNUWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510014216261-nqd97bpm1nh7ifrfuc1aanp5q168n216.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "510014216261-r268rhbuurcb67qmg2c0tefokp5iimjb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.186282.dissipate"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
