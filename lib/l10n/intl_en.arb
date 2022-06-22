@@ -1,0 +1,19 @@
+{
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "loggedIn": "Logged In",
+  "logout": "logout",
+  "homeAccountSince": "account since {date}",
+  "@homeAccountSince": {
+    "description": "'since 2021-01-12' formatted in users date format",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "2021-01-12"
+      }
+    }
+  },
+  "me": "me"
+}
