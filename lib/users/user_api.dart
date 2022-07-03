@@ -2,7 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 
 import '../api_base.dart';
-import 'models/user.dart';
+import '../models/user.dart';
 
 class UserApi extends ApiBase {
   save(User user) {}
