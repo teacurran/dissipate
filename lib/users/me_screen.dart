@@ -7,7 +7,7 @@ import 'package:flutterfire_ui/auth.dart';
 import 'package:get_it/get_it.dart';
 
 import '../common/dates.dart';
-import 'models/user.dart';
+import '../models/user.dart';
 
 final getIt = GetIt.instance;
 

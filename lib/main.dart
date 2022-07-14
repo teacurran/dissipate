@@ -1,3 +1,5 @@
+import 'package:dissipate/home/tabbed_home_screen.dart';
+import 'package:dissipate/users/me_screen.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -72,83 +74,83 @@ class _AppState extends State<App> {
         TabbedHomeScreen.webPath: (uri, params) {
           return const MaterialPage(child: TabbedHomeScreen());
         },
-        BookmarkScreen.webPath: (uri, params) {
-          return const MaterialPage(child: BookmarkScreen());
-        },
-        ConnectScreen.webPath: (uri, params) {
-          return const MaterialPage(child: ConnectScreen());
-        },
-        GffftListScreen.webPath: (uri, params) =>
-            const MaterialPage(child: GffftListScreen()),
-        RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+$"):
-            (uri, param) => MaterialPage(
-                child: GffftHomeScreen(
-                    uid: uri.pathSegments[1], gid: uri.pathSegments[3])),
-        RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/join"):
-            (uri, param) => MaterialPage(
-                child: GffftJoinScreen(
-                    uid: uri.pathSegments[1], gid: uri.pathSegments[3])),
-        RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/membership"):
-            (uri, param) => MaterialPage(
-                child: GffftMembershipScreen(
-                    uid: uri.pathSegments[1], gid: uri.pathSegments[3])),
-        RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/features$"):
-            (uri, param) => MaterialPage(
-                child: GffftFeatureScreen(
-                    uid: uri.pathSegments[1], gid: uri.pathSegments[3])),
-        RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/features/[a-zA-Z0-9]+/[a-zA-Z0-9]+"):
-            (uri, param) => VxRoutePage(
-                child: GffftFeatureScreen(
-                    uid: uri.pathSegments[1],
-                    gid: uri.pathSegments[3],
-                    tid: uri.pathSegments[5],
-                    fid: uri.pathSegments[6]),
-                transition: (animation, child) => FadeTransition(
-                      opacity: Tween(begin: 0.0, end: 0.0).animate(
-                        CurvedAnimation(
-                          parent: animation,
-                          curve: Curves.easeInOut,
-                        ),
-                      ),
-                      child: child,
-                    )),
-        RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/boards/[a-zA-Z0-9]+$"):
-            (uri, param) => MaterialPage(
-                    child: BoardViewScreen(
-                  uid: uri.pathSegments[1],
-                  gid: uri.pathSegments[3],
-                  bid: uri.pathSegments[5],
-                )),
-        RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/boards/[a-zA-Z0-9]+/post$"):
-            (uri, param) => MaterialPage(
-                    child: CreatePostScreen(
-                  uid: uri.pathSegments[1],
-                  gid: uri.pathSegments[3],
-                  bid: uri.pathSegments[5],
-                )),
-        RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/boards/[a-zA-Z0-9]+/threads/[a-zA-Z0-9]+$"):
-            (uri, param) => MaterialPage(
-                    child: ThreadViewScreen(
-                  uid: uri.pathSegments[1],
-                  gid: uri.pathSegments[3],
-                  bid: uri.pathSegments[5],
-                  tid: uri.pathSegments[7],
-                )),
-        RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/boards/[a-zA-Z0-9]+/threads/[a-zA-Z0-9]+/reply$"):
-            (uri, param) => MaterialPage(
-                    child: CreateReplyScreen(
-                  uid: uri.pathSegments[1],
-                  gid: uri.pathSegments[3],
-                  bid: uri.pathSegments[5],
-                  tid: uri.pathSegments[7],
-                )),
-        RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/galleries/[a-zA-Z0-9]+$"):
-            (uri, param) => MaterialPage(
-                    child: GalleryViewScreen(
-                  uid: uri.pathSegments[1],
-                  gid: uri.pathSegments[3],
-                  mid: uri.pathSegments[5],
-                )),
+        // BookmarkScreen.webPath: (uri, params) {
+        //   return const MaterialPage(child: BookmarkScreen());
+        // },
+        // ConnectScreen.webPath: (uri, params) {
+        //   return const MaterialPage(child: ConnectScreen());
+        // },
+        // GffftListScreen.webPath: (uri, params) =>
+        //     const MaterialPage(child: GffftListScreen()),
+        // RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+$"):
+        //     (uri, param) => MaterialPage(
+        //         child: GffftHomeScreen(
+        //             uid: uri.pathSegments[1], gid: uri.pathSegments[3])),
+        // RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/join"):
+        //     (uri, param) => MaterialPage(
+        //         child: GffftJoinScreen(
+        //             uid: uri.pathSegments[1], gid: uri.pathSegments[3])),
+        // RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/membership"):
+        //     (uri, param) => MaterialPage(
+        //         child: GffftMembershipScreen(
+        //             uid: uri.pathSegments[1], gid: uri.pathSegments[3])),
+        // RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/features$"):
+        //     (uri, param) => MaterialPage(
+        //         child: GffftFeatureScreen(
+        //             uid: uri.pathSegments[1], gid: uri.pathSegments[3])),
+        // RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/features/[a-zA-Z0-9]+/[a-zA-Z0-9]+"):
+        //     (uri, param) => VxRoutePage(
+        //         child: GffftFeatureScreen(
+        //             uid: uri.pathSegments[1],
+        //             gid: uri.pathSegments[3],
+        //             tid: uri.pathSegments[5],
+        //             fid: uri.pathSegments[6]),
+        //         transition: (animation, child) => FadeTransition(
+        //               opacity: Tween(begin: 0.0, end: 0.0).animate(
+        //                 CurvedAnimation(
+        //                   parent: animation,
+        //                   curve: Curves.easeInOut,
+        //                 ),
+        //               ),
+        //               child: child,
+        //             )),
+        // RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/boards/[a-zA-Z0-9]+$"):
+        //     (uri, param) => MaterialPage(
+        //             child: BoardViewScreen(
+        //           uid: uri.pathSegments[1],
+        //           gid: uri.pathSegments[3],
+        //           bid: uri.pathSegments[5],
+        //         )),
+        // RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/boards/[a-zA-Z0-9]+/post$"):
+        //     (uri, param) => MaterialPage(
+        //             child: CreatePostScreen(
+        //           uid: uri.pathSegments[1],
+        //           gid: uri.pathSegments[3],
+        //           bid: uri.pathSegments[5],
+        //         )),
+        // RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/boards/[a-zA-Z0-9]+/threads/[a-zA-Z0-9]+$"):
+        //     (uri, param) => MaterialPage(
+        //             child: ThreadViewScreen(
+        //           uid: uri.pathSegments[1],
+        //           gid: uri.pathSegments[3],
+        //           bid: uri.pathSegments[5],
+        //           tid: uri.pathSegments[7],
+        //         )),
+        // RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/boards/[a-zA-Z0-9]+/threads/[a-zA-Z0-9]+/reply$"):
+        //     (uri, param) => MaterialPage(
+        //             child: CreateReplyScreen(
+        //           uid: uri.pathSegments[1],
+        //           gid: uri.pathSegments[3],
+        //           bid: uri.pathSegments[5],
+        //           tid: uri.pathSegments[7],
+        //         )),
+        // RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/galleries/[a-zA-Z0-9]+$"):
+        //     (uri, param) => MaterialPage(
+        //             child: GalleryViewScreen(
+        //           uid: uri.pathSegments[1],
+        //           gid: uri.pathSegments[3],
+        //           mid: uri.pathSegments[5],
+        //         )),
         // RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/galleries/[a-zA-Z0-9]+/i/[a-zA-Z0-9\-]+$"):
         //     (uri, param) => MaterialPage(
         //             child: ItemViewScreen(
@@ -157,27 +159,27 @@ class _AppState extends State<App> {
         //           mid: uri.pathSegments[5],
         //           iid: uri.pathSegments[7],
         //         )),
-        RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/galleries/[a-zA-Z0-9]+/post$"):
-            (uri, param) => MaterialPage(
-                    child: GalleryPostScreen(
-                  uid: uri.pathSegments[1],
-                  gid: uri.pathSegments[3],
-                  mid: uri.pathSegments[5],
-                )),
-        RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/links/[a-zA-Z0-9]+$"):
-            (uri, param) => MaterialPage(
-                    child: LinkSetViewScreen(
-                  uid: uri.pathSegments[1],
-                  gid: uri.pathSegments[3],
-                  lid: uri.pathSegments[5],
-                )),
-        RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/links/[a-zA-Z0-9]+/post$"):
-            (uri, param) => MaterialPage(
-                    child: LinkPostScreen(
-                  uid: uri.pathSegments[1],
-                  gid: uri.pathSegments[3],
-                  lid: uri.pathSegments[5],
-                )),
+        // RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/galleries/[a-zA-Z0-9]+/post$"):
+        //     (uri, param) => MaterialPage(
+        //             child: GalleryPostScreen(
+        //           uid: uri.pathSegments[1],
+        //           gid: uri.pathSegments[3],
+        //           mid: uri.pathSegments[5],
+        //         )),
+        // RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/links/[a-zA-Z0-9]+$"):
+        //     (uri, param) => MaterialPage(
+        //             child: LinkSetViewScreen(
+        //           uid: uri.pathSegments[1],
+        //           gid: uri.pathSegments[3],
+        //           lid: uri.pathSegments[5],
+        //         )),
+        // RegExp(r"^\/users\/[a-zA-Z0-9\.\-]+/gfffts/[a-zA-Z0-9]+/links/[a-zA-Z0-9]+/post$"):
+        //     (uri, param) => MaterialPage(
+        //             child: LinkPostScreen(
+        //           uid: uri.pathSegments[1],
+        //           gid: uri.pathSegments[3],
+        //           lid: uri.pathSegments[5],
+        //         )),
         MeScreen.webPath: (uri, params) => MaterialPage(child: MeScreen()),
       });
 
