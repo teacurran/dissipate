@@ -1,4 +1,5 @@
 import 'package:dissipate/home/tabbed_home_screen.dart';
+import 'package:dissipate/style/app_theme.dart';
 import 'package:dissipate/users/me_screen.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -191,28 +192,22 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Auth0 Demo',
-      localizationsDelegates: [
+    return MaterialApp.router(
+      title: 'gffft',
+      routerDelegate: navigator,
+      routeInformationParser: VxInformationParser(),
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [
-        Locale('en', ''), // English, no country code
-        Locale('es', ''), // Spanish, no country code
+      supportedLocales: const [
+        Locale('en', ''), // English
+        Locale('es', ''), // Spanish
+        Locale('pt', ''), // Portugese
       ],
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Auth0 Demo'),
-        ),
-        body: Center(
-          child: TextButton(
-            onPressed: () => _onLogin(),
-            child: Text('Login'),
-          ),
-        ),
-      ),
+      darkTheme: context.appTheme.materialTheme,
+      theme: context.appTheme.materialTheme,
     );
   }
 
@@ -221,18 +216,6 @@ class _AppState extends State<App> {
       isBusy = true;
     });
 
-    _login().then((user) {
-      setState(() {
-        isBusy = false;
-        isLoggedIn = true;
-        name = user.name;
-        picture = user.picture;
-      });
-    }).catchError((error) {
-      setState(() {
-        isBusy = false;
-        errorMessage = error.toString();
-      });
-    });
+    VxNavigator.of(context).push(Uri(path: TabbedHomeScreen.webPath));
   }
 }
