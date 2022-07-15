@@ -1,20 +1,66 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dissipate/home/tabbed_home_screen.dart';
 import 'package:dissipate/style/app_theme.dart';
 import 'package:dissipate/users/me_screen.dart';
+import 'package:dissipate/users/user_api.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get_it/get_it.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:window_location_href/window_location_href.dart';
 
 import 'firebase_options.dart';
 
+final getIt = GetIt.instance;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Vx.setPathUrlStrategy();
+  await dotenv.load(fileName: ".env");
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // await Firebase.initializeApp(options: firebaseOptions);
+
+  if (kIsWeb) {
+    await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+    // FirebaseCrashlytics doesn't work on web
+    // await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  } else {
+    if (kDebugMode && false) {
+      // Force disable Crashlytics collection while doing every day development.
+      // Temporarily toggle this to true if you want to test crash reporting in your app.
+
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+    } else {
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    }
+  }
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  if (dotenv.get("EMULATE_FIRESTORE", fallback: "false") == "true") {
+    FirebaseFirestore.instance.settings = Settings(
+        host: dotenv.get('FIRESTORE_HOST', fallback: 'localhost:8080'),
+        sslEnabled: false,
+        persistenceEnabled: true);
+  }
+
+  if (dotenv.get("EMULATE_AUTH", fallback: "false") == "true") {
+    if (kDebugMode) {
+      print('using emulated firebase auth at: localhost, port: 9099');
+    }
+    FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  }
+
+  getIt.registerSingleton<UserApi>(UserApi());
 
   runApp(App());
 }
@@ -184,38 +230,106 @@ class _AppState extends State<App> {
         MeScreen.webPath: (uri, params) => MaterialPage(child: MeScreen()),
       });
 
-  bool isBusy = false;
-  bool isLoggedIn = false;
-  late String errorMessage;
-  late String name;
-  late String picture;
+  Future<void> _init(context) async {
+    // http://localhost:59282/?link=https://gffft-auth.firebaseapp.com/__/auth/action?apiKey%3DAIzaSyASr9Mp4VFSzFVAbDnuj_mAsrcX_oAI8jw%26mode%3DsignIn%26oobCode%3DPpqQPHEigxWAPHm9YL55XRySmgtfNedqRtum0YcAfJwAAAF9fvzgvA%26continueUrl%3Dhttp://localhost/links/home%26lang%3Den&apn=com.approachingpi.gffft&amv=21&ibi=com.approachingpi.gffft&ifl=https://gffft-auth.firebaseapp.com/__/auth/action?apiKey%3DAIzaSyASr9Mp4VFSzFVAbDnuj_mAsrcX_oAI8jw%26mode%3DsignIn%26oobCode%3DPpqQPHEigxWAPHm9YL55XRySmgtfNedqRtum0YcAfJwAAAF9fvzgvA%26continueUrl%3Dhttp://localhost/links/home%26lang%3Den
+    // var _auth = Provider.of<AuthModel>(context);
+    //var _auth = AuthModel();
+
+    String? deepLink;
+    if (kIsWeb) {
+      deepLink = getHref();
+    } else {
+      deepLink = getHref();
+    }
+
+    //window.location.
+    // if (deepLink != null) {
+    //   if (await _auth.isSignInWithEmailLink(deepLink)) {
+    //     _auth.signInWithEmailLink(deepLink);
+    //   }
+    // }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'gffft',
-      routerDelegate: navigator,
-      routeInformationParser: VxInformationParser(),
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en', ''), // English
-        Locale('es', ''), // Spanish
-        Locale('pt', ''), // Portugese
-      ],
-      darkTheme: context.appTheme.materialTheme,
-      theme: context.appTheme.materialTheme,
+    return FutureBuilder(
+      // Initialize FlutterFire:
+      future: _init(context),
+      builder: (context, snapshot) {
+        // Check for errors
+        if (snapshot.hasError) {
+          return loadingScreen(context);
+        }
+
+        // Once complete, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          return authenticationGate(context);
+        }
+
+        // Otherwise, show something whilst waiting for initialization to complete
+        return loadingScreen(context);
+      },
     );
   }
 
-  _onLogin() {
-    setState(() {
-      isBusy = true;
-    });
+  Widget loadingScreen(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        highlightColor: Colors.teal,
+        primaryColor: Colors.blue,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.light,
+        /* dark theme settings */
+      ),
+      themeMode: ThemeMode.system,
+      home: const Scaffold(),
+      title: "¡gffft!",
+    );
+  }
 
-    VxNavigator.of(context).push(Uri(path: TabbedHomeScreen.webPath));
+  Widget authenticationGate(BuildContext context) {
+    return AppTheme(
+        child: StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.userChanges(),
+      builder: (context, snapshot) {
+        final User? user = snapshot.data;
+
+        if (user == null) {
+          // id like to remove thi eentire StreamBuilder, but for some reason
+          // when I do the page doesn't render at all
+
+          // navigation can't happen here because the router isn't set up yet.
+          // instead this auth check is taking place in home_screen.dart
+
+          //navigator.push(Uri(path: LoginScreen.webPath));
+          // VxNavigator.of(context).push(Uri(path: LoginScreen.webPath));
+        } else {
+          if (kDebugMode) print("user is not null");
+        }
+
+        // final User? user = snapshot.data;
+        // var initialRoute = snapshot.hasData && user != null ? HomeScreen.webPath : LoginScreen.webPath;
+
+        return MaterialApp.router(
+          title: 'gffft',
+          routerDelegate: navigator,
+          routeInformationParser: VxInformationParser(),
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en', ''), // English
+            Locale('es', ''), // Spanish
+            Locale('pt', ''), // Portugese
+          ],
+          darkTheme: context.appTheme.materialTheme,
+          theme: context.appTheme.materialTheme,
+        );
+        // show your app’s home page after login
+      },
+    ));
   }
 }
