@@ -1,13 +1,15 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 
-import '../api_base.dart';
-import '../models/user.dart';
+import '../generated/dissipate.pbgrpc.dart';
 
-class UserApi extends ApiBase {
-  save(User user) {}
+class UserApi {
+  DissipateServiceClient _client;
 
-  Future<User?> me() async {
+  UserApi(this._client);
+
+  Future<Account?> me() async {
+    print("me()");
     fb_auth.FirebaseAuth auth = fb_auth.FirebaseAuth.instance;
     final fbUser = await auth.authStateChanges().first;
     if (fbUser == null) {
@@ -15,14 +17,14 @@ class UserApi extends ApiBase {
     }
     await FirebaseAnalytics.instance.setUserId(id: fbUser.uid);
 
-    final response = await getAuthenticated("users/me");
+    try {
+      print("getting user: ");
+      final response = await _client.register(RegisterRequest());
+      print("got user: " + response.toDebugString());
 
-    return User.fromJson(response);
-  }
-
-  Future<User> changeUsername() async {
-    final response = await postAuthenticated("users/me/change-username");
-
-    return User.fromJson(response);
+      return response.account;
+    } catch (error) {
+      print("error: " + error.toString());
+    }
   }
 }

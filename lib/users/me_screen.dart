@@ -7,7 +7,7 @@ import 'package:flutterfire_ui/auth.dart';
 import 'package:get_it/get_it.dart';
 
 import '../common/dates.dart';
-import '../models/user.dart';
+import '../generated/dissipate.pb.dart';
 
 final getIt = GetIt.instance;
 
@@ -23,12 +23,12 @@ class MeScreen extends StatefulWidget {
 
 class _MeScreenState extends State<MeScreen> {
   UserApi userApi = getIt<UserApi>();
-  Future<User?>? user;
+  Future<Account?>? account;
   fba.FirebaseAuth fbAuth = fba.FirebaseAuth.instance;
 
   Future<void> _loadData() async {
     setState(() {
-      user = userApi.me();
+      account = userApi.me();
     });
   }
 
@@ -47,8 +47,8 @@ class _MeScreenState extends State<MeScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: user,
-        builder: (context, AsyncSnapshot<User?> snapshot) {
+        future: account,
+        builder: (context, AsyncSnapshot<Account?> snapshot) {
           Widget screenBody = const LoadingIndicator(size: 30, borderWidth: 1);
 
           if (snapshot.hasError) {
@@ -74,7 +74,7 @@ class _MeScreenState extends State<MeScreen> {
         });
   }
 
-  Widget getMeScreen(BuildContext context, User user) {
+  Widget getMeScreen(BuildContext context, Account user) {
     var l10n = AppLocalizations.of(context);
     final theme = context.appTheme.materialTheme;
 
@@ -107,7 +107,7 @@ class _MeScreenState extends State<MeScreen> {
                       child: Column(children: [
                         SelectableText(l10n.loggedIn),
                         SelectableText(
-                          l10n.homeAccountSince(formatDateTime(user.createdAt)),
+                          l10n.homeAccountSince(formatDateTime(user.created.toDateTime())),
                           style: theme.textTheme.headline6,
                         )
                       ])))),

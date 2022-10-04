@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'dart:async' as dart_async;
 import 'dart:convert';
 import 'dart:io';
 
@@ -169,7 +169,7 @@ class ApiBase {
         if (kDebugMode) {
           print("Socket exception: ${e.toString()}");
         }
-      } else if (e is TimeoutException) {
+      } else if (e is dart_async.TimeoutException) {
         //treat TimeoutException
         if (kDebugMode) {
           print("Timeout exception: ${e.toString()}");

@@ -1,0 +1,12 @@
+= dissipate
+
+== Getting Started
+
+== Protocol Buffers:
+
+[source,bash]
+----
+dart pub global activate protoc_plugin
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+make protoc
+----

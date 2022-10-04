@@ -13,10 +13,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:grpc/grpc.dart' as grpc;
 import 'package:velocity_x/velocity_x.dart';
 import 'package:window_location_href/window_location_href.dart';
 
 import 'firebase_options.dart';
+import 'generated/dissipate.pbgrpc.dart';
 
 final getIt = GetIt.instance;
 
@@ -24,8 +26,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Vx.setPathUrlStrategy();
   await dotenv.load(fileName: ".env");
-
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // await Firebase.initializeApp(options: firebaseOptions);
@@ -60,7 +60,15 @@ Future<void> main() async {
     FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   }
 
-  getIt.registerSingleton<UserApi>(UserApi());
+  final channel = grpc.ClientChannel(
+    '192.168.0.69',
+    port: 9299,
+    options: const grpc.ChannelOptions(credentials: grpc.ChannelCredentials.insecure()),
+  );
+
+  final dissipateClient = DissipateServiceClient(channel);
+
+  getIt.registerSingleton<UserApi>(UserApi(dissipateClient));
 
   runApp(App());
 }
