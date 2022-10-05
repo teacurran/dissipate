@@ -16,6 +16,7 @@ import 'package:get_it/get_it.dart';
 import 'package:grpc/grpc.dart' as grpc;
 import 'package:velocity_x/velocity_x.dart';
 import 'package:window_location_href/window_location_href.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'firebase_options.dart';
 import 'generated/dissipate.pbgrpc.dart';
@@ -324,6 +325,7 @@ class _AppState extends State<App> {
           routerDelegate: navigator,
           routeInformationParser: VxInformationParser(),
           localizationsDelegates: const [
+            AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,

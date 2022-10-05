@@ -1,5 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
+import 'package:flutter/foundation.dart';
+import 'package:grpc/grpc.dart';
 
 import '../generated/dissipate.pbgrpc.dart';
 
@@ -19,7 +21,14 @@ class UserApi {
 
     try {
       print("getting user: ");
-      final response = await _client.register(RegisterRequest());
+
+      final String token = await fbUser.getIdToken(false);
+      if (kDebugMode) {
+        print('auth token: $token');
+      }
+      final response = await _client.register(RegisterRequest(), options: CallOptions(
+        metadata: {'Authentication': token}
+      ));
       print("got user: " + response.toDebugString());
 
       return response.account;
