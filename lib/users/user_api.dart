@@ -10,7 +10,7 @@ class UserApi {
 
   UserApi(this._client);
 
-  Future<Account?> me() async {
+  Future<RegisterResponse?> me() async {
     print("me()");
     fb_auth.FirebaseAuth auth = fb_auth.FirebaseAuth.instance;
     final fbUser = await auth.authStateChanges().first;
@@ -31,7 +31,7 @@ class UserApi {
       ));
       print("got user: " + response.toDebugString());
 
-      return response.account;
+      return response;
     } catch (error) {
       print("error: " + error.toString());
     }

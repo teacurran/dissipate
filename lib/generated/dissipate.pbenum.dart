@@ -12,12 +12,14 @@ import 'package:protobuf/protobuf.dart' as $pb;
 class AccountStatus extends $pb.ProtobufEnum {
   static const AccountStatus Active = AccountStatus._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'Active');
   static const AccountStatus Disabled = AccountStatus._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'Disabled');
-  static const AccountStatus Deleted = AccountStatus._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'Deleted');
+  static const AccountStatus Suspended = AccountStatus._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'Suspended');
+  static const AccountStatus Banned = AccountStatus._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'Banned');
 
   static const $core.List<AccountStatus> values = <AccountStatus> [
     Active,
     Disabled,
-    Deleted,
+    Suspended,
+    Banned,
   ];
 
   static final $core.Map<$core.int, AccountStatus> _byValue = $pb.ProtobufEnum.initByValue(values);

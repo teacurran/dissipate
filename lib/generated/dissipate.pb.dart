@@ -15,192 +15,6 @@ import 'dissipate.pbenum.dart';
 
 export 'dissipate.pbenum.dart';
 
-class Account extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Account', createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
-    ..aOM<$1.Timestamp>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'created', subBuilder: $1.Timestamp.create)
-    ..aOM<$1.Timestamp>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'lastLogin', subBuilder: $1.Timestamp.create)
-    ..e<AccountStatus>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'status', $pb.PbFieldType.OE, defaultOrMaker: AccountStatus.Active, valueOf: AccountStatus.valueOf, enumValues: AccountStatus.values)
-    ..hasRequiredFields = false
-  ;
-
-  Account._() : super();
-  factory Account({
-    $core.String? id,
-    $1.Timestamp? created,
-    $1.Timestamp? lastLogin,
-    AccountStatus? status,
-  }) {
-    final _result = create();
-    if (id != null) {
-      _result.id = id;
-    }
-    if (created != null) {
-      _result.created = created;
-    }
-    if (lastLogin != null) {
-      _result.lastLogin = lastLogin;
-    }
-    if (status != null) {
-      _result.status = status;
-    }
-    return _result;
-  }
-  factory Account.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory Account.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  Account clone() => Account()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  Account copyWith(void Function(Account) updates) => super.copyWith((message) => updates(message as Account)) as Account; // ignore: deprecated_member_use
-  $pb.BuilderInfo get info_ => _i;
-  @$core.pragma('dart2js:noInline')
-  static Account create() => Account._();
-  Account createEmptyInstance() => create();
-  static $pb.PbList<Account> createRepeated() => $pb.PbList<Account>();
-  @$core.pragma('dart2js:noInline')
-  static Account getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Account>(create);
-  static Account? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get id => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set id($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasId() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearId() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $1.Timestamp get created => $_getN(1);
-  @$pb.TagNumber(2)
-  set created($1.Timestamp v) { setField(2, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasCreated() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearCreated() => clearField(2);
-  @$pb.TagNumber(2)
-  $1.Timestamp ensureCreated() => $_ensure(1);
-
-  @$pb.TagNumber(3)
-  $1.Timestamp get lastLogin => $_getN(2);
-  @$pb.TagNumber(3)
-  set lastLogin($1.Timestamp v) { setField(3, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasLastLogin() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearLastLogin() => clearField(3);
-  @$pb.TagNumber(3)
-  $1.Timestamp ensureLastLogin() => $_ensure(2);
-
-  @$pb.TagNumber(4)
-  AccountStatus get status => $_getN(3);
-  @$pb.TagNumber(4)
-  set status(AccountStatus v) { setField(4, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasStatus() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearStatus() => clearField(4);
-}
-
-class Handle extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Handle', createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'handle')
-    ..aOM<$1.Timestamp>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'created', subBuilder: $1.Timestamp.create)
-    ..aOM<$1.Timestamp>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'lastSeen', subBuilder: $1.Timestamp.create)
-    ..hasRequiredFields = false
-  ;
-
-  Handle._() : super();
-  factory Handle({
-    $core.String? id,
-    $core.String? handle,
-    $1.Timestamp? created,
-    $1.Timestamp? lastSeen,
-  }) {
-    final _result = create();
-    if (id != null) {
-      _result.id = id;
-    }
-    if (handle != null) {
-      _result.handle = handle;
-    }
-    if (created != null) {
-      _result.created = created;
-    }
-    if (lastSeen != null) {
-      _result.lastSeen = lastSeen;
-    }
-    return _result;
-  }
-  factory Handle.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory Handle.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  Handle clone() => Handle()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  Handle copyWith(void Function(Handle) updates) => super.copyWith((message) => updates(message as Handle)) as Handle; // ignore: deprecated_member_use
-  $pb.BuilderInfo get info_ => _i;
-  @$core.pragma('dart2js:noInline')
-  static Handle create() => Handle._();
-  Handle createEmptyInstance() => create();
-  static $pb.PbList<Handle> createRepeated() => $pb.PbList<Handle>();
-  @$core.pragma('dart2js:noInline')
-  static Handle getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Handle>(create);
-  static Handle? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get id => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set id($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasId() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearId() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.String get handle => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set handle($core.String v) { $_setString(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasHandle() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearHandle() => clearField(2);
-
-  @$pb.TagNumber(3)
-  $1.Timestamp get created => $_getN(2);
-  @$pb.TagNumber(3)
-  set created($1.Timestamp v) { setField(3, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasCreated() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearCreated() => clearField(3);
-  @$pb.TagNumber(3)
-  $1.Timestamp ensureCreated() => $_ensure(2);
-
-  @$pb.TagNumber(4)
-  $1.Timestamp get lastSeen => $_getN(3);
-  @$pb.TagNumber(4)
-  set lastSeen($1.Timestamp v) { setField(4, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasLastSeen() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearLastSeen() => clearField(4);
-  @$pb.TagNumber(4)
-  $1.Timestamp ensureLastSeen() => $_ensure(3);
-}
-
 class CreateHandleRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'CreateHandleRequest', createEmptyInstance: create)
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'handle')
@@ -248,6 +62,99 @@ class CreateHandleRequest extends $pb.GeneratedMessage {
   void clearHandle() => clearField(2);
 }
 
+class CreateHandleResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'CreateHandleResponse', createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'handle')
+    ..aOM<$1.Timestamp>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'created', subBuilder: $1.Timestamp.create)
+    ..aOM<$1.Timestamp>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'lastSeen', subBuilder: $1.Timestamp.create)
+    ..hasRequiredFields = false
+  ;
+
+  CreateHandleResponse._() : super();
+  factory CreateHandleResponse({
+    $core.String? id,
+    $core.String? handle,
+    $1.Timestamp? created,
+    $1.Timestamp? lastSeen,
+  }) {
+    final _result = create();
+    if (id != null) {
+      _result.id = id;
+    }
+    if (handle != null) {
+      _result.handle = handle;
+    }
+    if (created != null) {
+      _result.created = created;
+    }
+    if (lastSeen != null) {
+      _result.lastSeen = lastSeen;
+    }
+    return _result;
+  }
+  factory CreateHandleResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CreateHandleResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  CreateHandleResponse clone() => CreateHandleResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  CreateHandleResponse copyWith(void Function(CreateHandleResponse) updates) => super.copyWith((message) => updates(message as CreateHandleResponse)) as CreateHandleResponse; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static CreateHandleResponse create() => CreateHandleResponse._();
+  CreateHandleResponse createEmptyInstance() => create();
+  static $pb.PbList<CreateHandleResponse> createRepeated() => $pb.PbList<CreateHandleResponse>();
+  @$core.pragma('dart2js:noInline')
+  static CreateHandleResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CreateHandleResponse>(create);
+  static CreateHandleResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get handle => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set handle($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasHandle() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearHandle() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $1.Timestamp get created => $_getN(2);
+  @$pb.TagNumber(3)
+  set created($1.Timestamp v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasCreated() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearCreated() => clearField(3);
+  @$pb.TagNumber(3)
+  $1.Timestamp ensureCreated() => $_ensure(2);
+
+  @$pb.TagNumber(4)
+  $1.Timestamp get lastSeen => $_getN(3);
+  @$pb.TagNumber(4)
+  set lastSeen($1.Timestamp v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasLastSeen() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearLastSeen() => clearField(4);
+  @$pb.TagNumber(4)
+  $1.Timestamp ensureLastSeen() => $_ensure(3);
+}
+
 class RegisterRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RegisterRequest', createEmptyInstance: create)
     ..hasRequiredFields = false
@@ -279,22 +186,32 @@ class RegisterRequest extends $pb.GeneratedMessage {
 
 class RegisterResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RegisterResponse', createEmptyInstance: create)
-    ..aOM<Account>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'account', subBuilder: Account.create)
-    ..pc<Handle>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'handles', $pb.PbFieldType.PM, subBuilder: Handle.create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
+    ..aOM<$1.Timestamp>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'created', subBuilder: $1.Timestamp.create)
+    ..aOM<$1.Timestamp>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'lastLogin', subBuilder: $1.Timestamp.create)
+    ..e<AccountStatus>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'status', $pb.PbFieldType.OE, defaultOrMaker: AccountStatus.Active, valueOf: AccountStatus.valueOf, enumValues: AccountStatus.values)
     ..hasRequiredFields = false
   ;
 
   RegisterResponse._() : super();
   factory RegisterResponse({
-    Account? account,
-    $core.Iterable<Handle>? handles,
+    $core.String? id,
+    $1.Timestamp? created,
+    $1.Timestamp? lastLogin,
+    AccountStatus? status,
   }) {
     final _result = create();
-    if (account != null) {
-      _result.account = account;
+    if (id != null) {
+      _result.id = id;
     }
-    if (handles != null) {
-      _result.handles.addAll(handles);
+    if (created != null) {
+      _result.created = created;
+    }
+    if (lastLogin != null) {
+      _result.lastLogin = lastLogin;
+    }
+    if (status != null) {
+      _result.status = status;
     }
     return _result;
   }
@@ -320,17 +237,43 @@ class RegisterResponse extends $pb.GeneratedMessage {
   static RegisterResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  Account get account => $_getN(0);
+  $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
-  set account(Account v) { setField(1, v); }
+  set id($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasAccount() => $_has(0);
+  $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearAccount() => clearField(1);
-  @$pb.TagNumber(1)
-  Account ensureAccount() => $_ensure(0);
+  void clearId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.List<Handle> get handles => $_getList(1);
+  $1.Timestamp get created => $_getN(1);
+  @$pb.TagNumber(2)
+  set created($1.Timestamp v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasCreated() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearCreated() => clearField(2);
+  @$pb.TagNumber(2)
+  $1.Timestamp ensureCreated() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  $1.Timestamp get lastLogin => $_getN(2);
+  @$pb.TagNumber(3)
+  set lastLogin($1.Timestamp v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasLastLogin() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearLastLogin() => clearField(3);
+  @$pb.TagNumber(3)
+  $1.Timestamp ensureLastLogin() => $_ensure(2);
+
+  @$pb.TagNumber(4)
+  AccountStatus get status => $_getN(3);
+  @$pb.TagNumber(4)
+  set status(AccountStatus v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasStatus() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearStatus() => clearField(4);
 }
 

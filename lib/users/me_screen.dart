@@ -23,12 +23,12 @@ class MeScreen extends StatefulWidget {
 
 class _MeScreenState extends State<MeScreen> {
   UserApi userApi = getIt<UserApi>();
-  Future<Account?>? account;
+  Future<RegisterResponse?>? registerResponse;
   fba.FirebaseAuth fbAuth = fba.FirebaseAuth.instance;
 
   Future<void> _loadData() async {
     setState(() {
-      account = userApi.me();
+      registerResponse = userApi.me();
     });
   }
 
@@ -47,8 +47,8 @@ class _MeScreenState extends State<MeScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: account,
-        builder: (context, AsyncSnapshot<Account?> snapshot) {
+        future: registerResponse,
+        builder: (context, AsyncSnapshot<RegisterResponse?> snapshot) {
           Widget screenBody = const LoadingIndicator(size: 30, borderWidth: 1);
 
           if (snapshot.hasError) {
@@ -74,7 +74,7 @@ class _MeScreenState extends State<MeScreen> {
         });
   }
 
-  Widget getMeScreen(BuildContext context, Account user) {
+  Widget getMeScreen(BuildContext context, RegisterResponse user) {
     var l10n = AppLocalizations.of(context);
     final theme = context.appTheme.materialTheme;
 

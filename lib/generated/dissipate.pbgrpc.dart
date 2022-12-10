@@ -21,10 +21,11 @@ class DissipateServiceClient extends $grpc.Client {
           ($core.List<$core.int> value) =>
               $0.RegisterResponse.fromBuffer(value));
   static final _$createHandle =
-      $grpc.ClientMethod<$0.CreateHandleRequest, $0.Handle>(
+      $grpc.ClientMethod<$0.CreateHandleRequest, $0.CreateHandleResponse>(
           '/DissipateService/CreateHandle',
           ($0.CreateHandleRequest value) => value.writeToBuffer(),
-          ($core.List<$core.int> value) => $0.Handle.fromBuffer(value));
+          ($core.List<$core.int> value) =>
+              $0.CreateHandleResponse.fromBuffer(value));
 
   DissipateServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -36,7 +37,8 @@ class DissipateServiceClient extends $grpc.Client {
     return $createUnaryCall(_$register, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.Handle> createHandle($0.CreateHandleRequest request,
+  $grpc.ResponseFuture<$0.CreateHandleResponse> createHandle(
+      $0.CreateHandleRequest request,
       {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$createHandle, request, options: options);
   }
@@ -53,14 +55,15 @@ abstract class DissipateServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.RegisterRequest.fromBuffer(value),
         ($0.RegisterResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.CreateHandleRequest, $0.Handle>(
-        'CreateHandle',
-        createHandle_Pre,
-        false,
-        false,
-        ($core.List<$core.int> value) =>
-            $0.CreateHandleRequest.fromBuffer(value),
-        ($0.Handle value) => value.writeToBuffer()));
+    $addMethod(
+        $grpc.ServiceMethod<$0.CreateHandleRequest, $0.CreateHandleResponse>(
+            'CreateHandle',
+            createHandle_Pre,
+            false,
+            false,
+            ($core.List<$core.int> value) =>
+                $0.CreateHandleRequest.fromBuffer(value),
+            ($0.CreateHandleResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.RegisterResponse> register_Pre(
@@ -68,13 +71,14 @@ abstract class DissipateServiceBase extends $grpc.Service {
     return register(call, await request);
   }
 
-  $async.Future<$0.Handle> createHandle_Pre($grpc.ServiceCall call,
+  $async.Future<$0.CreateHandleResponse> createHandle_Pre(
+      $grpc.ServiceCall call,
       $async.Future<$0.CreateHandleRequest> request) async {
     return createHandle(call, await request);
   }
 
   $async.Future<$0.RegisterResponse> register(
       $grpc.ServiceCall call, $0.RegisterRequest request);
-  $async.Future<$0.Handle> createHandle(
+  $async.Future<$0.CreateHandleResponse> createHandle(
       $grpc.ServiceCall call, $0.CreateHandleRequest request);
 }

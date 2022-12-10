@@ -14,38 +14,13 @@ const AccountStatus$json = const {
   '2': const [
     const {'1': 'Active', '2': 0},
     const {'1': 'Disabled', '2': 1},
-    const {'1': 'Deleted', '2': 2},
+    const {'1': 'Suspended', '2': 2},
+    const {'1': 'Banned', '2': 3},
   ],
 };
 
 /// Descriptor for `AccountStatus`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List accountStatusDescriptor = $convert.base64Decode('Cg1BY2NvdW50U3RhdHVzEgoKBkFjdGl2ZRAAEgwKCERpc2FibGVkEAESCwoHRGVsZXRlZBAC');
-@$core.Deprecated('Use accountDescriptor instead')
-const Account$json = const {
-  '1': 'Account',
-  '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    const {'1': 'created', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'created'},
-    const {'1': 'last_login', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'lastLogin'},
-    const {'1': 'status', '3': 4, '4': 1, '5': 14, '6': '.AccountStatus', '10': 'status'},
-  ],
-};
-
-/// Descriptor for `Account`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List accountDescriptor = $convert.base64Decode('CgdBY2NvdW50Eg4KAmlkGAEgASgJUgJpZBI0CgdjcmVhdGVkGAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIHY3JlYXRlZBI5CgpsYXN0X2xvZ2luGAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIJbGFzdExvZ2luEiYKBnN0YXR1cxgEIAEoDjIOLkFjY291bnRTdGF0dXNSBnN0YXR1cw==');
-@$core.Deprecated('Use handleDescriptor instead')
-const Handle$json = const {
-  '1': 'Handle',
-  '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    const {'1': 'handle', '3': 2, '4': 1, '5': 9, '10': 'handle'},
-    const {'1': 'created', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'created'},
-    const {'1': 'last_seen', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'lastSeen'},
-  ],
-};
-
-/// Descriptor for `Handle`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List handleDescriptor = $convert.base64Decode('CgZIYW5kbGUSDgoCaWQYASABKAlSAmlkEhYKBmhhbmRsZRgCIAEoCVIGaGFuZGxlEjQKB2NyZWF0ZWQYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgdjcmVhdGVkEjcKCWxhc3Rfc2VlbhgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSCGxhc3RTZWVu');
+final $typed_data.Uint8List accountStatusDescriptor = $convert.base64Decode('Cg1BY2NvdW50U3RhdHVzEgoKBkFjdGl2ZRAAEgwKCERpc2FibGVkEAESDQoJU3VzcGVuZGVkEAISCgoGQmFubmVkEAM=');
 @$core.Deprecated('Use createHandleRequestDescriptor instead')
 const CreateHandleRequest$json = const {
   '1': 'CreateHandleRequest',
@@ -56,6 +31,19 @@ const CreateHandleRequest$json = const {
 
 /// Descriptor for `CreateHandleRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List createHandleRequestDescriptor = $convert.base64Decode('ChNDcmVhdGVIYW5kbGVSZXF1ZXN0EhYKBmhhbmRsZRgCIAEoCVIGaGFuZGxl');
+@$core.Deprecated('Use createHandleResponseDescriptor instead')
+const CreateHandleResponse$json = const {
+  '1': 'CreateHandleResponse',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'handle', '3': 2, '4': 1, '5': 9, '10': 'handle'},
+    const {'1': 'created', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'created'},
+    const {'1': 'last_seen', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'lastSeen'},
+  ],
+};
+
+/// Descriptor for `CreateHandleResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List createHandleResponseDescriptor = $convert.base64Decode('ChRDcmVhdGVIYW5kbGVSZXNwb25zZRIOCgJpZBgBIAEoCVICaWQSFgoGaGFuZGxlGAIgASgJUgZoYW5kbGUSNAoHY3JlYXRlZBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSB2NyZWF0ZWQSNwoJbGFzdF9zZWVuGAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIIbGFzdFNlZW4=');
 @$core.Deprecated('Use registerRequestDescriptor instead')
 const RegisterRequest$json = const {
   '1': 'RegisterRequest',
@@ -67,10 +55,12 @@ final $typed_data.Uint8List registerRequestDescriptor = $convert.base64Decode('C
 const RegisterResponse$json = const {
   '1': 'RegisterResponse',
   '2': const [
-    const {'1': 'account', '3': 1, '4': 1, '5': 11, '6': '.Account', '10': 'account'},
-    const {'1': 'handles', '3': 2, '4': 3, '5': 11, '6': '.Handle', '10': 'handles'},
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'created', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'created'},
+    const {'1': 'last_login', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'lastLogin'},
+    const {'1': 'status', '3': 4, '4': 1, '5': 14, '6': '.AccountStatus', '10': 'status'},
   ],
 };
 
 /// Descriptor for `RegisterResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List registerResponseDescriptor = $convert.base64Decode('ChBSZWdpc3RlclJlc3BvbnNlEiIKB2FjY291bnQYASABKAsyCC5BY2NvdW50UgdhY2NvdW50EiEKB2hhbmRsZXMYAiADKAsyBy5IYW5kbGVSB2hhbmRsZXM=');
+final $typed_data.Uint8List registerResponseDescriptor = $convert.base64Decode('ChBSZWdpc3RlclJlc3BvbnNlEg4KAmlkGAEgASgJUgJpZBI0CgdjcmVhdGVkGAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIHY3JlYXRlZBI5CgpsYXN0X2xvZ2luGAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIJbGFzdExvZ2luEiYKBnN0YXR1cxgEIAEoDjIOLkFjY291bnRTdGF0dXNSBnN0YXR1cw==');
