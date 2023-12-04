@@ -22,9 +22,12 @@ class UserApi {
     try {
       print("getting user: ");
 
-      final String token = await fbUser.getIdToken(false);
+      final String? token = await fbUser.getIdToken(false);
       if (kDebugMode) {
         print('auth token: $token');
+      }
+      if (token == null) {
+        throw Exception("token is null");
       }
       final response = await _client.register(RegisterRequest(), options: CallOptions(
         metadata: {'Authentication': token}

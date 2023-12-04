@@ -69,40 +69,41 @@ class AppThemeData {
   }
 
   TextTheme _buildTextTheme(TextTheme base) {
+
     return base
         .apply(
           displayColor: Colors.white,
           bodyColor: Colors.white,
         )
         .copyWith(
-          bodyText1: GoogleFonts.sourceSansPro(
+          bodyText1: GoogleFonts.getFont('Source Sans 3',
               fontSize: 14,
               height: 1.4,
               fontWeight: FontWeight.normal,
               letterSpacing: letterSpacingOrNone(0.5),
               color: Colors.white),
-          bodyText2: GoogleFonts.sourceSansPro(
+          bodyText2: GoogleFonts.getFont('Source Sans 3',
             fontSize: 12,
             fontWeight: FontWeight.w400,
             letterSpacing: letterSpacingOrNone(0.5),
             color: Colors.lightGreen,
           ),
-          button: GoogleFonts.sourceSansPro(
+          button: GoogleFonts.getFont('Source Sans 3',
             fontWeight: FontWeight.w700,
             letterSpacing: letterSpacingOrNone(2.8),
             color: Colors.lightBlue[200],
           ),
-          caption: GoogleFonts.sourceSansPro(
+          caption: GoogleFonts.getFont('Source Sans 3',
               fontSize: 14,
               height: 1.4,
               fontWeight: FontWeight.normal,
               letterSpacing: letterSpacingOrNone(0.5),
               color: Colors.white),
           headline1:
-              GoogleFonts.sourceSansPro(color: const Color(0xFF1C839E), fontSize: 40, fontWeight: FontWeight.w100),
-          headline3: GoogleFonts.sourceSansPro(fontSize: 24, fontWeight: FontWeight.w400),
-          headline4: GoogleFonts.sourceSansPro(color: Colors.lightGreenAccent),
-          headline5: GoogleFonts.sourceSansPro(
+            GoogleFonts.getFont('Source Sans 3', color: const Color(0xFF1C839E), fontSize: 40, fontWeight: FontWeight.w100),
+          headline3: GoogleFonts.getFont('Source Sans 3', fontSize: 24, fontWeight: FontWeight.w400),
+          headline4: GoogleFonts.getFont('Source Sans 3', color: Colors.lightGreenAccent),
+          headline5: GoogleFonts.getFont('Source Sans 3',
               fontSize: 40, fontWeight: FontWeight.w600, letterSpacing: letterSpacingOrNone(1.4), color: Colors.white),
           subtitle1: const TextStyle(color: Colors.lightGreenAccent), // input text
           headline6: const TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
