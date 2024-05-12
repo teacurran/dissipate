@@ -22,12 +22,10 @@ class AppThemeData {
         elevation: 0,
       ),
       tabBarTheme: null,
-      errorColor: const Color(0xFFB87171),
       scaffoldBackgroundColor: const Color(0xFF33333D),
       buttonTheme: const ButtonThemeData(buttonColor: Colors.blue),
       outlinedButtonTheme: outlineButtonThemeData,
       textButtonTheme: textButtonThemeData,
-      backgroundColor: const Color(0xFF33333D),
       primaryColor: const Color(0xFF1C839E),
       secondaryHeaderColor: Colors.white,
       primaryColorDark: const Color(0xFF1C839E),
@@ -35,7 +33,7 @@ class AppThemeData {
       focusColor: const Color(0xCCFFFFFF),
       textTheme: _buildTextTheme(base.textTheme),
       primaryTextTheme: TextTheme(
-        headline6: TextStyle(color: Colors.lightBlue[50]), // app header text
+        titleLarge: TextStyle(color: Colors.lightBlue[50]), // app header text
       ),
       inputDecorationTheme: const InputDecorationTheme(
           labelStyle: TextStyle(
@@ -76,37 +74,37 @@ class AppThemeData {
           bodyColor: Colors.white,
         )
         .copyWith(
-          bodyText1: GoogleFonts.getFont('Source Sans 3',
+          bodyLarge: GoogleFonts.getFont('Source Sans 3',
               fontSize: 14,
               height: 1.4,
               fontWeight: FontWeight.normal,
               letterSpacing: letterSpacingOrNone(0.5),
               color: Colors.white),
-          bodyText2: GoogleFonts.getFont('Source Sans 3',
+          bodyMedium: GoogleFonts.getFont('Source Sans 3',
             fontSize: 12,
             fontWeight: FontWeight.w400,
             letterSpacing: letterSpacingOrNone(0.5),
             color: Colors.lightGreen,
           ),
-          button: GoogleFonts.getFont('Source Sans 3',
+          labelLarge: GoogleFonts.getFont('Source Sans 3',
             fontWeight: FontWeight.w700,
             letterSpacing: letterSpacingOrNone(2.8),
             color: Colors.lightBlue[200],
           ),
-          caption: GoogleFonts.getFont('Source Sans 3',
+          bodySmall: GoogleFonts.getFont('Source Sans 3',
               fontSize: 14,
               height: 1.4,
               fontWeight: FontWeight.normal,
               letterSpacing: letterSpacingOrNone(0.5),
               color: Colors.white),
-          headline1:
+          displayLarge:
             GoogleFonts.getFont('Source Sans 3', color: const Color(0xFF1C839E), fontSize: 40, fontWeight: FontWeight.w100),
-          headline3: GoogleFonts.getFont('Source Sans 3', fontSize: 24, fontWeight: FontWeight.w400),
-          headline4: GoogleFonts.getFont('Source Sans 3', color: Colors.lightGreenAccent),
-          headline5: GoogleFonts.getFont('Source Sans 3',
+          displaySmall: GoogleFonts.getFont('Source Sans 3', fontSize: 24, fontWeight: FontWeight.w400),
+          headlineMedium: GoogleFonts.getFont('Source Sans 3', color: Colors.lightGreenAccent),
+          headlineSmall: GoogleFonts.getFont('Source Sans 3',
               fontSize: 40, fontWeight: FontWeight.w600, letterSpacing: letterSpacingOrNone(1.4), color: Colors.white),
-          subtitle1: const TextStyle(color: Colors.lightGreenAccent), // input text
-          headline6: const TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
+          titleMedium: const TextStyle(color: Colors.lightGreenAccent), // input text
+          titleLarge: const TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
         );
   }
 

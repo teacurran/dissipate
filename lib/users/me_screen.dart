@@ -15,7 +15,7 @@ class MeScreen extends StatefulWidget {
   static const String webPath = '/users/me';
   final VoidCallback? onLogin;
 
-  const MeScreen({Key? key, this.onLogin}) : super(key: key);
+  const MeScreen({super.key, this.onLogin});
 
   @override
   State<MeScreen> createState() => _MeScreenState();
@@ -83,7 +83,7 @@ class _MeScreenState extends State<MeScreen> {
         automaticallyImplyLeading: false,
         title: Text(
           l10n!.me,
-          style: theme.textTheme.headline1,
+          style: theme.textTheme.displayLarge,
         ),
         centerTitle: true,
       ),
@@ -108,7 +108,7 @@ class _MeScreenState extends State<MeScreen> {
                         SelectableText(l10n.loggedIn),
                         SelectableText(
                           l10n.homeAccountSince(formatDateTime(user.created.toDateTime())),
-                          style: theme.textTheme.headline6,
+                          style: theme.textTheme.titleLarge,
                         )
                       ])))),
           TextButton(

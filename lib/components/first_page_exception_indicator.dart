@@ -6,8 +6,8 @@ class FirstPageExceptionIndicator extends StatelessWidget {
     required this.title,
     this.message,
     this.onTryAgain,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String title;
   final String? message;
@@ -24,7 +24,7 @@ class FirstPageExceptionIndicator extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             if (message != null)
               const SizedBox(

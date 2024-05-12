@@ -110,7 +110,7 @@ class ApiBase {
     var url = Uri.parse(_baseUrl + urlPath);
     if (queryParams != null) {
       String queryString = Uri(queryParameters: queryParams).query;
-      var requestUrl = url.toString() + '?' + queryString;
+      var requestUrl = '$url?$queryString';
 
       url = Uri.parse(requestUrl);
     }

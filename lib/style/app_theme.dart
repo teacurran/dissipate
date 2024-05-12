@@ -6,7 +6,7 @@ import 'app_theme_data.dart';
 class AppTheme extends StatelessWidget {
   final Widget child;
 
-  const AppTheme({required this.child});
+  const AppTheme({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {

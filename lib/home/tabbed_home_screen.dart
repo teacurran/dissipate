@@ -13,7 +13,7 @@ final getIt = GetIt.instance;
 final GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
 
 class TabbedHomeScreen extends StatefulWidget {
-  const TabbedHomeScreen({Key? key}) : super(key: key);
+  const TabbedHomeScreen({super.key});
 
   static const String webPath = '/';
 
@@ -140,6 +140,8 @@ class _TabbedHomeScreenState extends State<TabbedHomeScreen>
 }
 
 class NoFeaturedFound extends StatelessWidget {
+  const NoFeaturedFound({super.key});
+
   @override
   Widget build(BuildContext context) => const FirstPageExceptionIndicator(
         title: 'No featured gfffts found',
@@ -148,6 +150,8 @@ class NoFeaturedFound extends StatelessWidget {
 }
 
 class NoBookmarksFound extends StatelessWidget {
+  const NoBookmarksFound({super.key});
+
   @override
   Widget build(BuildContext context) => const FirstPageExceptionIndicator(
         title: 'No bookmarks found',

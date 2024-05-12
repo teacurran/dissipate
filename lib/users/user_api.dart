@@ -6,7 +6,7 @@ import 'package:grpc/grpc.dart';
 import '../generated/dissipate.pbgrpc.dart';
 
 class UserApi {
-  DissipateServiceClient _client;
+  final DissipateServiceClient _client;
 
   UserApi(this._client);
 
@@ -32,11 +32,12 @@ class UserApi {
       final response = await _client.register(RegisterRequest(), options: CallOptions(
         metadata: {'Authentication': token}
       ));
-      print("got user: " + response.toDebugString());
+      print("got user: ${response.toDebugString()}");
 
       return response;
     } catch (error) {
-      print("error: " + error.toString());
+      print("error: $error");
     }
+    return null;
   }
 }
