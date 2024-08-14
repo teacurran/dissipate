@@ -1,5 +1,3 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 import 'package:flutter/foundation.dart';
 import 'package:grpc/grpc.dart';
 
@@ -12,12 +10,11 @@ class UserApi {
 
   Future<RegisterResponse?> me() async {
     print("me()");
-    fb_auth.FirebaseAuth auth = fb_auth.FirebaseAuth.instance;
-    final fbUser = await auth.authStateChanges().first;
+    // fb_auth.FirebaseAuth auth = fb_auth.FirebaseAuth.instance;
+    final fbUser = null; //await auth.authStateChanges().first;
     if (fbUser == null) {
       return null;
     }
-    await FirebaseAnalytics.instance.setUserId(id: fbUser.uid);
 
     try {
       print("getting user: ");

@@ -1,38 +1,42 @@
-///
+//
 //  Generated code. Do not modify.
 //  source: dissipate.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
+
+// ignore_for_file: annotate_overrides, camel_case_types, comment_references
+// ignore_for_file: constant_identifier_names, library_prefixes
+// ignore_for_file: non_constant_identifier_names, prefer_final_fields
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
 
 import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'google/protobuf/timestamp.pb.dart' as $1;
-
 import 'dissipate.pbenum.dart';
+import 'google/protobuf/timestamp.pb.dart' as $1;
 
 export 'dissipate.pbenum.dart';
 
 class CreateHandleRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'CreateHandleRequest', createEmptyInstance: create)
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'handle')
-    ..hasRequiredFields = false
-  ;
-
-  CreateHandleRequest._() : super();
   factory CreateHandleRequest({
     $core.String? handle,
   }) {
-    final _result = create();
+    final $result = create();
     if (handle != null) {
-      _result.handle = handle;
+      $result.handle = handle;
     }
-    return _result;
+    return $result;
   }
+  CreateHandleRequest._() : super();
   factory CreateHandleRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory CreateHandleRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CreateHandleRequest', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'handle')
+    ..hasRequiredFields = false
+  ;
+
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -42,8 +46,10 @@ class CreateHandleRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  CreateHandleRequest copyWith(void Function(CreateHandleRequest) updates) => super.copyWith((message) => updates(message as CreateHandleRequest)) as CreateHandleRequest; // ignore: deprecated_member_use
+  CreateHandleRequest copyWith(void Function(CreateHandleRequest) updates) => super.copyWith((message) => updates(message as CreateHandleRequest)) as CreateHandleRequest;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static CreateHandleRequest create() => CreateHandleRequest._();
   CreateHandleRequest createEmptyInstance() => create();
@@ -52,49 +58,50 @@ class CreateHandleRequest extends $pb.GeneratedMessage {
   static CreateHandleRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CreateHandleRequest>(create);
   static CreateHandleRequest? _defaultInstance;
 
-  @$pb.TagNumber(2)
+  @$pb.TagNumber(1)
   $core.String get handle => $_getSZ(0);
-  @$pb.TagNumber(2)
+  @$pb.TagNumber(1)
   set handle($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(2)
+  @$pb.TagNumber(1)
   $core.bool hasHandle() => $_has(0);
-  @$pb.TagNumber(2)
-  void clearHandle() => clearField(2);
+  @$pb.TagNumber(1)
+  void clearHandle() => clearField(1);
 }
 
 class CreateHandleResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'CreateHandleResponse', createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'handle')
-    ..aOM<$1.Timestamp>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'created', subBuilder: $1.Timestamp.create)
-    ..aOM<$1.Timestamp>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'lastSeen', subBuilder: $1.Timestamp.create)
-    ..hasRequiredFields = false
-  ;
-
-  CreateHandleResponse._() : super();
   factory CreateHandleResponse({
     $core.String? id,
     $core.String? handle,
     $1.Timestamp? created,
     $1.Timestamp? lastSeen,
   }) {
-    final _result = create();
+    final $result = create();
     if (id != null) {
-      _result.id = id;
+      $result.id = id;
     }
     if (handle != null) {
-      _result.handle = handle;
+      $result.handle = handle;
     }
     if (created != null) {
-      _result.created = created;
+      $result.created = created;
     }
     if (lastSeen != null) {
-      _result.lastSeen = lastSeen;
+      $result.lastSeen = lastSeen;
     }
-    return _result;
+    return $result;
   }
+  CreateHandleResponse._() : super();
   factory CreateHandleResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory CreateHandleResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CreateHandleResponse', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..aOS(2, _omitFieldNames ? '' : 'handle')
+    ..aOM<$1.Timestamp>(3, _omitFieldNames ? '' : 'created', subBuilder: $1.Timestamp.create)
+    ..aOM<$1.Timestamp>(4, _omitFieldNames ? '' : 'lastSeen', subBuilder: $1.Timestamp.create)
+    ..hasRequiredFields = false
+  ;
+
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -104,8 +111,10 @@ class CreateHandleResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  CreateHandleResponse copyWith(void Function(CreateHandleResponse) updates) => super.copyWith((message) => updates(message as CreateHandleResponse)) as CreateHandleResponse; // ignore: deprecated_member_use
+  CreateHandleResponse copyWith(void Function(CreateHandleResponse) updates) => super.copyWith((message) => updates(message as CreateHandleResponse)) as CreateHandleResponse;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static CreateHandleResponse create() => CreateHandleResponse._();
   CreateHandleResponse createEmptyInstance() => create();
@@ -156,14 +165,29 @@ class CreateHandleResponse extends $pb.GeneratedMessage {
 }
 
 class RegisterRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RegisterRequest', createEmptyInstance: create)
+  factory RegisterRequest({
+    $core.String? email,
+    $core.String? phoneNumber,
+  }) {
+    final $result = create();
+    if (email != null) {
+      $result.email = email;
+    }
+    if (phoneNumber != null) {
+      $result.phoneNumber = phoneNumber;
+    }
+    return $result;
+  }
+  RegisterRequest._() : super();
+  factory RegisterRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RegisterRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisterRequest', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'email')
+    ..aOS(2, _omitFieldNames ? '' : 'phoneNumber')
     ..hasRequiredFields = false
   ;
 
-  RegisterRequest._() : super();
-  factory RegisterRequest() => create();
-  factory RegisterRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory RegisterRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -173,8 +197,10 @@ class RegisterRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  RegisterRequest copyWith(void Function(RegisterRequest) updates) => super.copyWith((message) => updates(message as RegisterRequest)) as RegisterRequest; // ignore: deprecated_member_use
+  RegisterRequest copyWith(void Function(RegisterRequest) updates) => super.copyWith((message) => updates(message as RegisterRequest)) as RegisterRequest;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static RegisterRequest create() => RegisterRequest._();
   RegisterRequest createEmptyInstance() => create();
@@ -182,41 +208,50 @@ class RegisterRequest extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static RegisterRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegisterRequest>(create);
   static RegisterRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get email => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set email($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasEmail() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearEmail() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get phoneNumber => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set phoneNumber($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPhoneNumber() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPhoneNumber() => clearField(2);
 }
 
 class RegisterResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RegisterResponse', createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
-    ..aOM<$1.Timestamp>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'created', subBuilder: $1.Timestamp.create)
-    ..aOM<$1.Timestamp>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'lastLogin', subBuilder: $1.Timestamp.create)
-    ..e<AccountStatus>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'status', $pb.PbFieldType.OE, defaultOrMaker: AccountStatus.Active, valueOf: AccountStatus.valueOf, enumValues: AccountStatus.values)
+  factory RegisterResponse({
+    RegisterResponseResult? result,
+    $core.String? errorMessage,
+  }) {
+    final $result = create();
+    if (result != null) {
+      $result.result = result;
+    }
+    if (errorMessage != null) {
+      $result.errorMessage = errorMessage;
+    }
+    return $result;
+  }
+  RegisterResponse._() : super();
+  factory RegisterResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RegisterResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisterResponse', createEmptyInstance: create)
+    ..e<RegisterResponseResult>(1, _omitFieldNames ? '' : 'result', $pb.PbFieldType.OE, defaultOrMaker: RegisterResponseResult.Error, valueOf: RegisterResponseResult.valueOf, enumValues: RegisterResponseResult.values)
+    ..aOS(2, _omitFieldNames ? '' : 'errorMessage')
     ..hasRequiredFields = false
   ;
 
-  RegisterResponse._() : super();
-  factory RegisterResponse({
-    $core.String? id,
-    $1.Timestamp? created,
-    $1.Timestamp? lastLogin,
-    AccountStatus? status,
-  }) {
-    final _result = create();
-    if (id != null) {
-      _result.id = id;
-    }
-    if (created != null) {
-      _result.created = created;
-    }
-    if (lastLogin != null) {
-      _result.lastLogin = lastLogin;
-    }
-    if (status != null) {
-      _result.status = status;
-    }
-    return _result;
-  }
-  factory RegisterResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory RegisterResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -226,8 +261,10 @@ class RegisterResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  RegisterResponse copyWith(void Function(RegisterResponse) updates) => super.copyWith((message) => updates(message as RegisterResponse)) as RegisterResponse; // ignore: deprecated_member_use
+  RegisterResponse copyWith(void Function(RegisterResponse) updates) => super.copyWith((message) => updates(message as RegisterResponse)) as RegisterResponse;
+
   $pb.BuilderInfo get info_ => _i;
+
   @$core.pragma('dart2js:noInline')
   static RegisterResponse create() => RegisterResponse._();
   RegisterResponse createEmptyInstance() => create();
@@ -237,43 +274,24 @@ class RegisterResponse extends $pb.GeneratedMessage {
   static RegisterResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get id => $_getSZ(0);
+  RegisterResponseResult get result => $_getN(0);
   @$pb.TagNumber(1)
-  set id($core.String v) { $_setString(0, v); }
+  set result(RegisterResponseResult v) { setField(1, v); }
   @$pb.TagNumber(1)
-  $core.bool hasId() => $_has(0);
+  $core.bool hasResult() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearResult() => clearField(1);
 
   @$pb.TagNumber(2)
-  $1.Timestamp get created => $_getN(1);
+  $core.String get errorMessage => $_getSZ(1);
   @$pb.TagNumber(2)
-  set created($1.Timestamp v) { setField(2, v); }
+  set errorMessage($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasCreated() => $_has(1);
+  $core.bool hasErrorMessage() => $_has(1);
   @$pb.TagNumber(2)
-  void clearCreated() => clearField(2);
-  @$pb.TagNumber(2)
-  $1.Timestamp ensureCreated() => $_ensure(1);
-
-  @$pb.TagNumber(3)
-  $1.Timestamp get lastLogin => $_getN(2);
-  @$pb.TagNumber(3)
-  set lastLogin($1.Timestamp v) { setField(3, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasLastLogin() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearLastLogin() => clearField(3);
-  @$pb.TagNumber(3)
-  $1.Timestamp ensureLastLogin() => $_ensure(2);
-
-  @$pb.TagNumber(4)
-  AccountStatus get status => $_getN(3);
-  @$pb.TagNumber(4)
-  set status(AccountStatus v) { setField(4, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasStatus() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearStatus() => clearField(4);
+  void clearErrorMessage() => clearField(2);
 }
 
+
+const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

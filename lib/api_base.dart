@@ -2,8 +2,6 @@ import 'dart:async' as dart_async;
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -105,7 +103,6 @@ class ApiBase {
       String? payload,
       String? payloadContentType,
       Map<String, String>? queryParams}) async {
-    FirebaseAuth fbAuth = FirebaseAuth.instance;
 
     var url = Uri.parse(_baseUrl + urlPath);
     if (queryParams != null) {
@@ -130,7 +127,7 @@ class ApiBase {
       // final fbUser = await fbAuth.authStateChanges().first;
 
       // but this does not always seem to be initialized
-      final fbUser = fbAuth.currentUser;
+      final fbUser = null; //fbAuth.currentUser;
 
       if (requireAuth && fbUser == null) {
         throw FetchDataException('User must be authenticated');
@@ -174,19 +171,10 @@ class ApiBase {
         if (kDebugMode) {
           print("Timeout exception: ${e.toString()}");
         }
-      } else if (e is FirebaseException) {
-        //treat TimeoutException
-        if (kDebugMode) {
-          print("Firebase exception: ${e.toString()}");
-        }
-        await fbAuth.signOut();
       } else if (kDebugMode) {
         print("Unhandled exception. signing user out.: ${e.toString()}");
         //await fbAuth.signOut();
       }
-
-      await FirebaseCrashlytics.instance.recordError(e, stacktrace,
-          reason: 'API call failed: $url, payload: $payload');
 
       throw FetchDataException('Unable to fetch data');
     }
