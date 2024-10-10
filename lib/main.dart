@@ -25,7 +25,6 @@ Future<void> main() async {
     if (kDebugMode && false) {
       // Force disable Crashlytics collection while doing every day development.
       // Temporarily toggle this to true if you want to test crash reporting in your app.
-
     } else {
       // await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
     }
@@ -42,21 +41,22 @@ Future<void> main() async {
 
   getIt.registerSingleton<UserApi>(UserApi(dissipateClient));
 
-    try {
-      RegisterRequest registerRequest = RegisterRequest(email: "tea@grilledcheese.com");
+  try {
+    RegisterRequest registerRequest = RegisterRequest(email: "tea@grilledcheese.com");
 
-      var response = await dissipateClient.register(registerRequest);
+    var response = await dissipateClient.register(registerRequest);
 
-      print(response.result);
-      ///do something with your response here
-    } on GrpcError catch (e) {
-      ///handle all grpc errors here
-      ///errors such us UNIMPLEMENTED,UNIMPLEMENTED etc...
-      print(e);
-    } catch (e) {
-      ///handle all generic errors here
-      print(e);
-    }
+    print(response.result);
+
+    ///do something with your response here
+  } on GrpcError catch (e) {
+    ///handle all grpc errors here
+    ///errors such us UNIMPLEMENTED,UNIMPLEMENTED etc...
+    print(e);
+  } catch (e) {
+    ///handle all generic errors here
+    print(e);
+  }
 
   runApp(const App());
 }
@@ -73,29 +73,37 @@ class App extends StatefulWidget {
 /// -----------------------------------
 
 class _AppState extends State<App> {
+  final List<Widget> screens = [
+    ScreenWidget(title: 'Screen 1', color: Colors.blue),
+    ScreenWidget(title: 'Screen 2', color: Colors.green),
+    ScreenWidget(title: 'Screen 3', color: Colors.orange),
+  ];
+
   Future<void> _init(context) async {}
 
   @override
   Widget build(BuildContext context) {
-    return loadingScreen(context);
-    // return FutureBuilder(
-    //   // Initialize FlutterFire:
-    //   future: _init(context),
-    //   builder: (context, snapshot) {
-    //     // Check for errors
-    //     if (snapshot.hasError) {
-    //       return loadingScreen(context);
-    //     }
-    //
-    //     // Once complete, show your application
-    //     if (snapshot.connectionState == ConnectionState.done) {
-    //       return authenticationGate(context);
-    //     }
-    //
-    //     // Otherwise, show something whilst waiting for initialization to complete
-    //     return loadingScreen(context);
-    //   },
-    // );
+    return AppTheme(
+        child: MaterialApp(
+      title: 'dissipate',
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''), // English
+        Locale('es', ''), // Spanish
+        Locale('pt', ''), // Portugese
+      ],
+      darkTheme: context.appTheme.materialTheme,
+      theme: context.appTheme.materialTheme,
+      routes: {
+        '/': (context) => const TabbedHomeScreen(),
+        '/test': (context) => const TabbedHomeScreen(),
+      },
+    ));
   }
 
   Widget loadingScreen(BuildContext context) {
@@ -136,5 +144,30 @@ class _AppState extends State<App> {
       },
     ));
     // show your app’s home page after login
+  }
+}
+
+class ScreenWidget extends StatelessWidget {
+  final String title;
+  final Color color;
+
+  const ScreenWidget({Key? key, required this.title, required this.color}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Container(
+        color: color,
+        child: Center(
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 24, color: Colors.white),
+          ),
+        ),
+      ),
+    );
   }
 }
