@@ -10,10 +10,7 @@ class AppTheme extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider<AppThemeData>(
-      create: (_) => AppThemeData(),
-      child: child,
-    );
+    return Provider<AppThemeData>.value(value: AppThemeData(), child: child);
   }
 }
 
