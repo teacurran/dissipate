@@ -115,9 +115,10 @@ class WhiteboardPainter extends CustomPainter {
     );
 
     final paint = Paint()
+      ..style = PaintingStyle.stroke
       ..color = Colors.black
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 3.0;
+      ..strokeWidth = 1;
 
     // Draw points and lines
     if (points.length >= 2) {
@@ -135,6 +136,9 @@ class WhiteboardPainter extends CustomPainter {
           curve.end.dx, curve.end.dy,
         );
         canvas.drawPath(path, paint);
+
+        // Draw control point
+        canvas.drawCircle(curve.control1!, 10, paint);
       }
     }
 
