@@ -174,8 +174,15 @@ class WhiteboardPainter extends CustomPainter {
         canvas.drawLine(curve.start, curve.end, paint);
       }
 
-        // Draw control point
+      if (control1 != null) {
         canvas.drawCircle(curve.control1!, 10, paint);
+      }
+      if (control2 != null) {
+        canvas.drawCircle(curve.control2!, 10, paint);
+      }
+
+        // Draw control point
+        // canvas.drawCircle(curve.control1!, 10, paint);
 
         // draw a square for the start and end points
         for (var point in [curve.start, curve.end]) {
