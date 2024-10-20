@@ -8,7 +8,7 @@ class Whiteboard extends StatefulWidget {
 }
 
 class _WhiteboardState extends State<Whiteboard> {
-  List<Offset> points = [];
+  List<Point> points = [];
   List<BezierCurve> curves = [];
   double _scale = 1.0;
   double _previousScale = 1.0;
@@ -16,6 +16,7 @@ class _WhiteboardState extends State<Whiteboard> {
   Offset _previousOffset = Offset.zero;
   bool _drawingBezier = false;
   BezierCurve? _activeCurve;
+  List<Point> selectedPoints = [];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class _WhiteboardState extends State<Whiteboard> {
       child: Container(
         color: Colors.white,  // White background
         child: CustomPaint(
-          painter: WhiteboardPainter(points, curves, _scale, _offset),
+          painter: WhiteboardPainter(points, curves, selectedPoints, _scale, _offset),
           size: Size.infinite,
         ),
       ),
@@ -50,7 +51,18 @@ class _WhiteboardState extends State<Whiteboard> {
 
   void _onTapUp(TapUpDetails details) {
     setState(() {
-      final transformedPoint = (details.localPosition - _offset) / _scale;
+      final transformedPoint = Point((details.localPosition - _offset) / _scale, []);
+      points.add(transformedPoint);
+
+      if (selectedPoints.isNotEmpty && selectedPoints.length == 1) {
+        var previousPoint = selectedPoints[0];
+        if (previousPoint.curves.isEmpty || previousPoint.curves.length == 1) {
+          var bc = BezierCurve(start: previousPoint.offset, end: transformedPoint.offset);
+          previousPoint.curves.add(bc);
+          curves.add(bc);
+        }
+      }
+
       if (points.isEmpty || _drawingBezier) {
         points.add(transformedPoint);
         if (_drawingBezier && _activeCurve != null) {
@@ -59,10 +71,13 @@ class _WhiteboardState extends State<Whiteboard> {
         _drawingBezier = false;
         _activeCurve = null;
       } else if (points.length == 1) {
-        points.add(transformedPoint);
+        // points.add(transformedPoint);
+        // selectedPoints = [transformedPoint];
       } else {
-        points.clear();
+        // points.clear();
       }
+
+      selectedPoints = [transformedPoint];
     });
   }
 
@@ -71,7 +86,7 @@ class _WhiteboardState extends State<Whiteboard> {
       final transformedPoint = (details.localPosition - _offset) / _scale;
       if (points.length == 2) {
         _drawingBezier = true;
-        _activeCurve = BezierCurve(start: points[0], end: points[1], control1: transformedPoint);
+        _activeCurve = BezierCurve(start: points[0].offset, end: points[1].offset, control1: transformedPoint);
       }
     });
   }
@@ -95,12 +110,13 @@ class _WhiteboardState extends State<Whiteboard> {
 }
 
 class WhiteboardPainter extends CustomPainter {
-  final List<Offset> points;
+  final List<Point> points;
   final List<BezierCurve> curves;
+  final List<Point> selectedPoints;
   final double scale;
   final Offset offset;
 
-  WhiteboardPainter(this.points, this.curves, this.scale, this.offset);
+  WhiteboardPainter(this.points, this.curves, this.selectedPoints, this.scale, this.offset);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -120,26 +136,63 @@ class WhiteboardPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 1;
 
+    final pointPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = Colors.pink
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = 1;
+
+    final selectedPointPaint = pointPaint..color = Colors.blue;
+
     // Draw points and lines
     if (points.length >= 2) {
-      canvas.drawLine(points[0], points[1], paint);
+      canvas.drawLine(points[0].offset, points[1].offset, paint);
     }
 
     // Draw curves
     for (var curve in curves) {
       final path = Path();
       path.moveTo(curve.start.dx, curve.start.dy);
-      if (curve.control1 != null && curve.control2 != null) {
+
+
+      var control1 = curve.control1;
+      var control2 = curve.control2;
+
+      if (control1 == null && control2 != null) {
+        control1 = control2;
+      } else if (control1 != null && control2 == null) {
+        control2 = control1;
+      }
+      if (control1 != null && control2 != null) {
         path.cubicTo(
           curve.control1!.dx, curve.control1!.dy,
           curve.control2!.dx, curve.control2!.dy,
           curve.end.dx, curve.end.dy,
         );
         canvas.drawPath(path, paint);
+      } else {
+        canvas.drawLine(curve.start, curve.end, paint);
+      }
 
         // Draw control point
         canvas.drawCircle(curve.control1!, 10, paint);
+
+        // draw a square for the start and end points
+        for (var point in [curve.start, curve.end]) {
+          canvas.drawRect(
+            Rect.fromCenter(center: point, width: 10, height: 10),
+            pointPaint,
+          );
+        }
+
+    }
+
+    for (var point in points) {
+      var currentPaint = pointPaint;
+      if (selectedPoints.contains(point)) {
+        currentPaint = selectedPointPaint;
       }
+      canvas.drawCircle(point.offset, 5, currentPaint);
     }
 
     canvas.restore();
@@ -149,6 +202,13 @@ class WhiteboardPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
   }
+}
+
+class Point {
+  Offset offset;
+  List<BezierCurve?> curves;
+
+  Point(this.offset, this.curves);
 }
 
 class BezierCurve {
