@@ -23,7 +23,7 @@ class _WhiteboardState extends State<Whiteboard> {
     return GestureDetector(
       onScaleStart: _onScaleStart,
       onScaleUpdate: _onScaleUpdate,
-      onTapUp: _onTapUp,
+      onTapDown: _onTapDown,
       onLongPressStart: _onLongPressStart,
       onLongPressMoveUpdate: _onLongPressMoveUpdate,
       onLongPressEnd: _onLongPressEnd,
@@ -49,7 +49,7 @@ class _WhiteboardState extends State<Whiteboard> {
     });
   }
 
-  void _onTapUp(TapUpDetails details) {
+  void _onTapDown(TapDownDetails details) {
     setState(() {
       final transformedPoint = Point((details.localPosition - _offset) / _scale, []);
       points.add(transformedPoint);
@@ -142,7 +142,11 @@ class WhiteboardPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 1;
 
-    final selectedPointPaint = pointPaint..color = Colors.blue;
+    final selectedPointPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = Colors.blue
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = 1;
 
     // Draw points and lines
     if (points.length >= 2) {
@@ -185,12 +189,12 @@ class WhiteboardPainter extends CustomPainter {
         // canvas.drawCircle(curve.control1!, 10, paint);
 
         // draw a square for the start and end points
-        for (var point in [curve.start, curve.end]) {
-          canvas.drawRect(
-            Rect.fromCenter(center: point, width: 10, height: 10),
-            pointPaint,
-          );
-        }
+        // for (var point in [curve.start, curve.end]) {
+        //   canvas.drawRect(
+        //     Rect.fromCenter(center: point, width: 10, height: 10),
+        //     pointPaint,
+        //   );
+        // }
 
     }
 
@@ -200,6 +204,14 @@ class WhiteboardPainter extends CustomPainter {
         currentPaint = selectedPointPaint;
       }
       canvas.drawCircle(point.offset, 5, currentPaint);
+
+
+
+
+
+
+
+
     }
 
     canvas.restore();
