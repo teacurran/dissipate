@@ -52,7 +52,28 @@ class _WhiteboardState extends State<Whiteboard> {
   void _onPointerMove(PointerMoveEvent event) {
     if (isDragging && selectedPoints.isNotEmpty) {
       setState(() {
-        selectedPoints[0].offset = (event.localPosition - _offset) / _scale;
+        for (var point in selectedPoints) {
+          var newOffset = (event.localPosition - _offset) / _scale;
+          if (point.curves.isNotEmpty) {
+            for (var curve in point.curves) {
+              if (curve != null) {
+                if (curve.start == point.offset) {
+                  curve.start = newOffset;
+                  if (curve.controlStart != null) {
+                    curve.controlStart = (curve.controlStart! - _offset) / _scale;
+                  }
+                }
+                if (curve.end == point.offset) {
+                  curve.end = newOffset;
+                  if (curve.controlEnd != null) {
+                    curve.controlEnd = (curve.controlEnd! - _offset) / _scale;
+                  }
+                }
+              }
+            }
+          }
+          point.offset = newOffset;
+        }
       });
     }
   }
@@ -91,6 +112,7 @@ class _WhiteboardState extends State<Whiteboard> {
         if (previousPoint.curves.isEmpty || previousPoint.curves.length == 1) {
           var bc = BezierCurve(start: previousPoint.offset, end: transformedPoint.offset);
           previousPoint.curves.add(bc);
+          transformedPoint.curves.add(bc);
           curves.add(bc);
         }
       }
@@ -105,7 +127,7 @@ class _WhiteboardState extends State<Whiteboard> {
       final transformedPoint = (details.localPosition - _offset) / _scale;
       if (points.length == 2) {
         _drawingBezier = true;
-        _activeCurve = BezierCurve(start: points[0].offset, end: points[1].offset, control1: transformedPoint);
+        _activeCurve = BezierCurve(start: points[0].offset, end: points[1].offset, controlStart: transformedPoint);
       }
     });
   }
@@ -113,7 +135,7 @@ class _WhiteboardState extends State<Whiteboard> {
   void _onLongPressMoveUpdate(LongPressMoveUpdateDetails details) {
     if (_drawingBezier && _activeCurve != null) {
       setState(() {
-        _activeCurve!.control1 = (details.localPosition - _offset) / _scale;
+        _activeCurve!.controlStart = (details.localPosition - _offset) / _scale;
       });
     }
   }
@@ -122,7 +144,7 @@ class _WhiteboardState extends State<Whiteboard> {
     if (_drawingBezier && _activeCurve != null) {
       setState(() {
         final transformedPoint = (details.localPosition - _offset) / _scale;
-        _activeCurve!.control2 = transformedPoint;
+        _activeCurve!.controlEnd = transformedPoint;
       });
     }
   }
@@ -177,8 +199,8 @@ class WhiteboardPainter extends CustomPainter {
       final path = Path();
       path.moveTo(curve.start.dx, curve.start.dy);
 
-      var control1 = curve.control1;
-      var control2 = curve.control2;
+      var control1 = curve.controlStart;
+      var control2 = curve.controlEnd;
 
       if (control1 == null && control2 != null) {
         control1 = control2;
@@ -187,10 +209,10 @@ class WhiteboardPainter extends CustomPainter {
       }
       if (control1 != null && control2 != null) {
         path.cubicTo(
-          curve.control1!.dx,
-          curve.control1!.dy,
-          curve.control2!.dx,
-          curve.control2!.dy,
+          curve.controlStart!.dx,
+          curve.controlStart!.dy,
+          curve.controlEnd!.dx,
+          curve.controlEnd!.dy,
           curve.end.dx,
           curve.end.dy,
         );
@@ -200,10 +222,10 @@ class WhiteboardPainter extends CustomPainter {
       }
 
       if (control1 != null) {
-        canvas.drawCircle(curve.control1!, 10, paint);
+        canvas.drawCircle(curve.controlStart!, 10, paint);
       }
       if (control2 != null) {
-        canvas.drawCircle(curve.control2!, 10, paint);
+        canvas.drawCircle(curve.controlEnd!, 10, paint);
       }
 
       // Draw control point
@@ -243,15 +265,15 @@ class Point {
 }
 
 class BezierCurve {
-  final Offset start;
-  final Offset end;
-  Offset? control1;
-  Offset? control2;
+  Offset start;
+  Offset end;
+  Offset? controlStart;
+  Offset? controlEnd;
 
   BezierCurve({
     required this.start,
     required this.end,
-    this.control1,
-    this.control2,
+    this.controlStart,
+    this.controlEnd,
   });
 }
