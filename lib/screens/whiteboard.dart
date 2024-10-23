@@ -17,43 +17,75 @@ class _WhiteboardState extends State<Whiteboard> {
   bool _drawingBezier = false;
   BezierCurve? _activeCurve;
   List<Point> selectedPoints = [];
+  bool isDragging = false;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onScaleStart: _onScaleStart,
-      onScaleUpdate: _onScaleUpdate,
-      onTapDown: _onTapDown,
-      onLongPressStart: _onLongPressStart,
-      onLongPressMoveUpdate: _onLongPressMoveUpdate,
-      onLongPressEnd: _onLongPressEnd,
-      child: Container(
-        color: Colors.white,  // White background
-        child: CustomPaint(
-          painter: WhiteboardPainter(points, curves, selectedPoints, _scale, _offset),
-          size: Size.infinite,
-        ),
-      ),
-    );
+    return Listener(
+        onPointerMove: _onPointerMove,
+        child: GestureDetector(
+          onScaleStart: onScaleStart,
+          onScaleUpdate: _onScaleUpdate,
+          onTapDown: onTapDown,
+          onTapUp: onTapUp,
+          onLongPressStart: onLongPressStart,
+          onLongPressMoveUpdate: _onLongPressMoveUpdate,
+          onLongPressEnd: _onLongPressEnd,
+          child: Container(
+            color: Colors.white, // White background
+            child: CustomPaint(
+              painter: WhiteboardPainter(points, curves, selectedPoints, _scale, _offset),
+              size: Size.infinite,
+            ),
+          ),
+        ));
   }
 
-  void _onScaleStart(ScaleStartDetails details) {
+  void onScaleStart(ScaleStartDetails details) {
     _previousScale = _scale;
     _previousOffset = details.focalPoint - _offset;
+    if (selectedPoints.isNotEmpty) {
+      isDragging = true;
+    }
+  }
+
+  void _onPointerMove(PointerMoveEvent event) {
+    if (isDragging && selectedPoints.isNotEmpty) {
+      setState(() {
+        selectedPoints[0].offset = (event.localPosition - _offset) / _scale;
+      });
+    }
   }
 
   void _onScaleUpdate(ScaleUpdateDetails details) {
     setState(() {
-      _scale = _previousScale * details.scale;
-      _offset = details.focalPoint - _previousOffset;
+      if (isDragging && selectedPoints.isNotEmpty) {
+        selectedPoints[0].offset = (details.localFocalPoint - _offset) / _scale;
+      } else {
+        _scale = _previousScale * details.scale;
+        _offset = details.focalPoint - _previousOffset;
+      }
+
+      // _scale = _previousScale * details.scale;
+      // _offset = details.focalPoint - _previousOffset;
+      // if (isDragging) {
+      //   selectedPoints[0].offset = (details.localFocalPoint - _offset) / _scale;
+      // }
     });
   }
 
-  void _onTapDown(TapDownDetails details) {
+  void onTapUp(TapUpDetails details) {
+    setState(() {
+      isDragging = false;
+    });
+  }
+
+  void onTapDown(TapDownDetails details) {
     setState(() {
       final transformedPoint = Point((details.localPosition - _offset) / _scale, []);
       points.add(transformedPoint);
 
+      // if there is a single point selected, connect to it
       if (selectedPoints.isNotEmpty && selectedPoints.length == 1) {
         var previousPoint = selectedPoints[0];
         if (previousPoint.curves.isEmpty || previousPoint.curves.length == 1) {
@@ -63,25 +95,12 @@ class _WhiteboardState extends State<Whiteboard> {
         }
       }
 
-      if (points.isEmpty || _drawingBezier) {
-        points.add(transformedPoint);
-        if (_drawingBezier && _activeCurve != null) {
-          curves.add(_activeCurve!);
-        }
-        _drawingBezier = false;
-        _activeCurve = null;
-      } else if (points.length == 1) {
-        // points.add(transformedPoint);
-        // selectedPoints = [transformedPoint];
-      } else {
-        // points.clear();
-      }
-
       selectedPoints = [transformedPoint];
+      isDragging = true;
     });
   }
 
-  void _onLongPressStart(LongPressStartDetails details) {
+  void onLongPressStart(LongPressStartDetails details) {
     setState(() {
       final transformedPoint = (details.localPosition - _offset) / _scale;
       if (points.length == 2) {
@@ -158,7 +177,6 @@ class WhiteboardPainter extends CustomPainter {
       final path = Path();
       path.moveTo(curve.start.dx, curve.start.dy);
 
-
       var control1 = curve.control1;
       var control2 = curve.control2;
 
@@ -169,9 +187,12 @@ class WhiteboardPainter extends CustomPainter {
       }
       if (control1 != null && control2 != null) {
         path.cubicTo(
-          curve.control1!.dx, curve.control1!.dy,
-          curve.control2!.dx, curve.control2!.dy,
-          curve.end.dx, curve.end.dy,
+          curve.control1!.dx,
+          curve.control1!.dy,
+          curve.control2!.dx,
+          curve.control2!.dy,
+          curve.end.dx,
+          curve.end.dy,
         );
         canvas.drawPath(path, paint);
       } else {
@@ -185,17 +206,16 @@ class WhiteboardPainter extends CustomPainter {
         canvas.drawCircle(curve.control2!, 10, paint);
       }
 
-        // Draw control point
-        // canvas.drawCircle(curve.control1!, 10, paint);
+      // Draw control point
+      // canvas.drawCircle(curve.control1!, 10, paint);
 
-        // draw a square for the start and end points
-        // for (var point in [curve.start, curve.end]) {
-        //   canvas.drawRect(
-        //     Rect.fromCenter(center: point, width: 10, height: 10),
-        //     pointPaint,
-        //   );
-        // }
-
+      // draw a square for the start and end points
+      // for (var point in [curve.start, curve.end]) {
+      //   canvas.drawRect(
+      //     Rect.fromCenter(center: point, width: 10, height: 10),
+      //     pointPaint,
+      //   );
+      // }
     }
 
     for (var point in points) {
@@ -204,14 +224,6 @@ class WhiteboardPainter extends CustomPainter {
         currentPaint = selectedPointPaint;
       }
       canvas.drawCircle(point.offset, 5, currentPaint);
-
-
-
-
-
-
-
-
     }
 
     canvas.restore();
