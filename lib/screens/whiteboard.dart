@@ -1,7 +1,12 @@
+import 'package:dissipate/models/glyph_options.dart';
 import 'package:flutter/material.dart';
 
 class Whiteboard extends StatefulWidget {
-  const Whiteboard({Key? key}) : super(key: key);
+  final GlyphOptions options;
+
+  const Whiteboard({Key? key,
+    required this.options,
+  }) : super(key: key);
 
   @override
   State<Whiteboard> createState() => _WhiteboardState();

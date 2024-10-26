@@ -1,6 +1,5 @@
 import 'package:dissipate/providers/app_theme_data.dart';
-import 'package:dissipate/screens/home.dart';
-import 'package:dissipate/screens/whiteboard.dart';
+import 'package:dissipate/screens/editor_screen.dart';
 import 'package:dissipate/util/const.dart';
 import 'package:dissipate/util/theme_config.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
           title: Constants.appName,
           theme: themeData.theme,
           darkTheme: ThemeConfig.darkTheme,
-          home: const Whiteboard(),
+          home: const EditorScreen(),
         );
       },
     );

@@ -1,9 +1,10 @@
-import 'dart:ui' as ui;
-
+import 'package:dissipate/models/glyph_options.dart';
+import 'package:dissipate/screens/whiteboard.dart';
 import 'package:flutter/material.dart';
 
 import '../models/drawing_tool.dart';
-import '../widget/canvas_side_bar.dart';
+import '../widget/toolbox.dart';
+import '../widget/hot_key_listener.dart';
 
 class EditorScreen extends StatefulWidget {
   const EditorScreen({super.key});
@@ -16,13 +17,14 @@ class _EditorScreenState extends State<EditorScreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController animationController;
 
-  final ValueNotifier<DrawingTool> drawingTool = ValueNotifier(DrawingTool.line);
+  final ValueNotifier<DrawingTool> drawingTool = ValueNotifier(DrawingTool.pen);
 
   final GlobalKey canvasGlobalKey = GlobalKey();
   final ValueNotifier<int> polygonSides = ValueNotifier(3);
 
-  late final UndoRedoStack undoRedoStack;
   final ValueNotifier<bool> showGrid = ValueNotifier(false);
+
+  final Color kCanvasColor = Color(0xfff2f3f7);
 
   @override
   void initState() {
@@ -31,11 +33,6 @@ class _EditorScreenState extends State<EditorScreen>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-
-    undoRedoStack = UndoRedoStack(
-      currentStrokeNotifier: currentStroke,
-      strokesNotifier: allStrokes,
-    );
   }
 
   @override
@@ -43,71 +40,90 @@ class _EditorScreenState extends State<EditorScreen>
     return Scaffold(
       backgroundColor: kCanvasColor,
       body: HotkeyListener(
-        onRedo: undoRedoStack.redo,
-        onUndo: undoRedoStack.undo,
-        child: Stack(
-          children: [
-            AnimatedBuilder(
-              animation: Listenable.merge([
-                currentStroke,
-                allStrokes,
-                selectedColor,
-                strokeSize,
-                eraserSize,
-                drawingTool,
-                filled,
-                polygonSides,
-                backgroundImage,
-                showGrid,
-              ]),
-              builder: (context, _) {
-                return DrawingCanvas(
-                  options: DrawingCanvasOptions(
-                    currentTool: drawingTool.value,
-                    size: strokeSize.value,
-                    strokeColor: selectedColor.value,
-                    backgroundColor: kCanvasColor,
-                    polygonSides: polygonSides.value,
-                    showGrid: showGrid.value,
-                    fillShape: filled.value,
-                  ),
-                  canvasKey: canvasGlobalKey,
-                  currentStrokeListenable: currentStroke,
-                  strokesListenable: allStrokes,
-                  backgroundImageListenable: backgroundImage,
-                );
-              },
-            ),
-            Positioned(
-              top: kToolbarHeight + 10,
-              child: SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(-1, 0),
-                  end: Offset.zero,
-                ).animate(animationController),
-                child: CanvasSideBar(
-                  drawingTool: drawingTool,
-                  selectedColor: selectedColor,
-                  strokeSize: strokeSize,
-                  eraserSize: eraserSize,
-                  currentSketch: currentStroke,
-                  allSketches: allStrokes,
-                  canvasGlobalKey: canvasGlobalKey,
-                  filled: filled,
-                  polygonSides: polygonSides,
-                  backgroundImage: backgroundImage,
-                  undoRedoStack: undoRedoStack,
-                  showGrid: showGrid,
-                ),
-              ),
-            ),
-            _CustomAppBar(animationController: animationController),
-          ],
+        onRedo: () {},
+        onUndo: () {},
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+              return _buildDesktopView();
+          },
         ),
       ),
     );
   }
+
+  Widget _buildMobileView() {
+    return Stack(
+      children: [
+        AnimatedBuilder(
+          animation: Listenable.merge([
+            drawingTool,
+            polygonSides,
+            showGrid,
+          ]),
+          builder: (context, _) {
+            return Whiteboard(
+              options: GlyphOptions(
+                showGrid: showGrid.value,
+                currentTool: drawingTool.value,
+              ),
+            );
+          },
+        ),
+        Positioned(
+          top: kToolbarHeight + 10,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(-1, 0),
+              end: Offset.zero,
+            ).animate(animationController),
+            child: Toolbox(
+              drawingTool: drawingTool,
+              polygonSides: polygonSides,
+              showGrid: showGrid,
+            ),
+          ),
+        ),
+        _CustomAppBar(animationController: animationController),
+      ],
+    );
+  }
+
+  Widget _buildDesktopView() {
+    final toolbox = Toolbox(
+      drawingTool: drawingTool,
+      polygonSides: polygonSides,
+      showGrid: showGrid,
+    );
+
+    return Column(
+      children: [
+        Expanded(
+          child: AnimatedBuilder(
+            animation: Listenable.merge([
+              drawingTool,
+              polygonSides,
+              showGrid,
+            ]),
+            builder: (context, _) {
+              return Whiteboard(
+                options: GlyphOptions(
+                  showGrid: showGrid.value,
+                  currentTool: drawingTool.value,
+                ),
+              );
+            },
+          ),
+        ),
+        Container(
+          width: double.infinity,
+          child: toolbox,
+          decoration: BoxDecoration(border: Border.all(color: Colors.red, width: 1))
+        )
+      ],
+    );
+  }
 }
+
 
 class _CustomAppBar extends StatelessWidget {
   final AnimationController animationController;
@@ -136,7 +152,7 @@ class _CustomAppBar extends StatelessWidget {
               icon: const Icon(Icons.menu),
             ),
             const Text(
-              'Let\'s Draw',
+              'Glyph Editor',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 19,
