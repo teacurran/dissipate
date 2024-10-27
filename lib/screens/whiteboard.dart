@@ -49,9 +49,9 @@ class _WhiteboardState extends State<Whiteboard> {
   void onScaleStart(ScaleStartDetails details) {
     _previousScale = _scale;
     _previousOffset = details.focalPoint - _offset;
-    if (selectedPoints.isNotEmpty) {
-      isDragging = true;
-    }
+    // if (selectedPoints.isNotEmpty) {
+    //   isDragging = true;
+    // }
   }
 
   void _onPointerMove(PointerMoveEvent event) {
@@ -109,21 +109,24 @@ class _WhiteboardState extends State<Whiteboard> {
   void onTapDown(TapDownDetails details) {
     setState(() {
       final transformedPoint = Point((details.localPosition - _offset) / _scale, []);
-      points.add(transformedPoint);
 
-      // if there is a single point selected, connect to it
-      if (selectedPoints.isNotEmpty && selectedPoints.length == 1) {
-        var previousPoint = selectedPoints[0];
-        if (previousPoint.curves.isEmpty || previousPoint.curves.length == 1) {
-          var bc = BezierCurve(start: previousPoint.offset, end: transformedPoint.offset);
-          previousPoint.curves.add(bc);
-          transformedPoint.curves.add(bc);
-          curves.add(bc);
+      if (widget.options.currentTool.isPen) {
+        points.add(transformedPoint);
+
+        // if there is a single point selected, connect to it
+        if (selectedPoints.isNotEmpty && selectedPoints.length == 1) {
+          var previousPoint = selectedPoints[0];
+          if (previousPoint.curves.isEmpty || previousPoint.curves.length == 1) {
+            var bc = BezierCurve(start: previousPoint.offset, end: transformedPoint.offset);
+            previousPoint.curves.add(bc);
+            transformedPoint.curves.add(bc);
+            curves.add(bc);
+          }
         }
-      }
 
-      selectedPoints = [transformedPoint];
-      isDragging = true;
+        selectedPoints = [transformedPoint];
+        isDragging = true;
+      }
     });
   }
 
