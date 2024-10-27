@@ -21,9 +21,6 @@ class PolygonPainter extends CustomPainter {
     final angle = (2 * pi) / sides;
     final radius = (size.width - padding * 2) / 2;
 
-    // final angle = (2 * 3.141592653589793) / sides;
-    //final radius = size.width / 2;
-
     // Apply rotation to point the triangle upwards
     canvas.translate(size.width / 2, size.height / 2);
     canvas.rotate(-pi / 2);
