@@ -1,3 +1,4 @@
+import 'package:dissipate/widget/polygon_painter.dart';
 import 'package:flutter/material.dart' hide Image;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -36,6 +37,7 @@ class _ToolboxState extends State<Toolbox> {
         animation: Listenable.merge([
           widget.drawingTool,
           widget.showGrid,
+          widget.polygonSides,
         ]),
         builder: (context, _) {
           return Scrollbar(
@@ -76,17 +78,23 @@ class _ToolboxState extends State<Toolbox> {
                       tooltip: 'Circle',
                     ),
                     _IconBox(
-                      iconData: Icons.hexagon_outlined,
                       selected: widget.drawingTool.value == DrawingTool.polygon,
                       onTap: () => widget.drawingTool.value = DrawingTool.polygon,
                       tooltip: 'Polygon',
+                      child: CustomPaint(
+                        painter: PolygonPainter(
+                          sides: widget.polygonSides.value,
+                          color: widget.drawingTool.value.isPolygon ? Colors.grey[900]! : Colors.grey,
+                          padding: 5
+                        )
+                      )
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 150),
-                  child: widget.drawingTool.value == DrawingTool.pen
+                  child: widget.drawingTool.value == DrawingTool.polygon
                       ? Row(
                           children: [
                             const Text(
