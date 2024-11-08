@@ -13,8 +13,7 @@ class EditorScreen extends StatefulWidget {
   State<EditorScreen> createState() => _EditorScreenState();
 }
 
-class _EditorScreenState extends State<EditorScreen>
-    with SingleTickerProviderStateMixin {
+class _EditorScreenState extends State<EditorScreen> with SingleTickerProviderStateMixin {
   late final AnimationController animationController;
 
   final ValueNotifier<DrawingTool> drawingTool = ValueNotifier(DrawingTool.pen);
@@ -44,7 +43,7 @@ class _EditorScreenState extends State<EditorScreen>
         onUndo: () {},
         child: LayoutBuilder(
           builder: (context, constraints) {
-              return _buildDesktopView();
+            return _buildDesktopView();
           },
         ),
       ),
@@ -97,6 +96,10 @@ class _EditorScreenState extends State<EditorScreen>
 
     return Column(
       children: [
+        Container(
+            width: double.infinity,
+            child: toolbox,
+            decoration: BoxDecoration(border: Border.all(color: Colors.red, width: 1))),
         Expanded(
           child: AnimatedBuilder(
             animation: Listenable.merge([
@@ -114,22 +117,15 @@ class _EditorScreenState extends State<EditorScreen>
             },
           ),
         ),
-        Container(
-          width: double.infinity,
-          child: toolbox,
-          decoration: BoxDecoration(border: Border.all(color: Colors.red, width: 1))
-        )
       ],
     );
   }
 }
 
-
 class _CustomAppBar extends StatelessWidget {
   final AnimationController animationController;
 
-  const _CustomAppBar({Key? key, required this.animationController})
-      : super(key: key);
+  const _CustomAppBar({Key? key, required this.animationController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
