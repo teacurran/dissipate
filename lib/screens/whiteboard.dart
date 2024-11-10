@@ -1,10 +1,12 @@
 import 'package:dissipate/models/glyph_options.dart';
 import 'package:flutter/material.dart';
+import 'package:path_drawing/path_drawing.dart';
 
 class Whiteboard extends StatefulWidget {
   final GlyphOptions options;
 
-  const Whiteboard({Key? key,
+  const Whiteboard({
+    Key? key,
     required this.options,
   }) : super(key: key);
 
@@ -12,7 +14,10 @@ class Whiteboard extends StatefulWidget {
   State<Whiteboard> createState() => _WhiteboardState();
 }
 
-class _WhiteboardState extends State<Whiteboard> {
+class _WhiteboardState extends State<Whiteboard> with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
   List<Point> points = [];
   List<BezierCurve> curves = [];
   double _scale = 1.0;
@@ -23,6 +28,25 @@ class _WhiteboardState extends State<Whiteboard> {
   BezierCurve? _activeCurve;
   List<Point> selectedPoints = [];
   bool isDragging = false;
+
+  Offset squareSelectTopLeft = Offset.zero;
+  Offset squareSelectBottomRight = Offset.zero;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    )..repeat();
+    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +60,18 @@ class _WhiteboardState extends State<Whiteboard> {
           onLongPressStart: onLongPressStart,
           onLongPressMoveUpdate: _onLongPressMoveUpdate,
           onLongPressEnd: _onLongPressEnd,
-          child: Container(
-            color: Colors.white, // White background
-            child: CustomPaint(
-              painter: WhiteboardPainter(points, curves, selectedPoints, _scale, _offset),
-              size: Size.infinite,
-            ),
+          child: AnimatedBuilder(
+            animation: _animation,
+            builder: (context, _) {
+              return Container(
+                color: Colors.white, // White background
+                child: CustomPaint(
+                  painter: WhiteboardPainter(
+                      points, curves, selectedPoints, _scale, _offset, squareSelectTopLeft, squareSelectBottomRight, _animation.value),
+                  size: Size.infinite,
+                ),
+              );
+            },
           ),
         ));
   }
@@ -84,9 +114,13 @@ class _WhiteboardState extends State<Whiteboard> {
   }
 
   void _onScaleUpdate(ScaleUpdateDetails details) {
+    Offset localOffset = (details.localFocalPoint - _offset) / _scale;
+
     setState(() {
-      if (isDragging && selectedPoints.isNotEmpty) {
-        selectedPoints[0].offset = (details.localFocalPoint - _offset) / _scale;
+      if (widget.options.currentTool.isPen && isDragging && selectedPoints.isNotEmpty) {
+        selectedPoints[0].offset = localOffset;
+      } else if (widget.options.currentTool.isSelect && isDragging) {
+        squareSelectBottomRight = localOffset;
       } else {
         _scale = _previousScale * details.scale;
         _offset = details.focalPoint - _previousOffset;
@@ -127,6 +161,13 @@ class _WhiteboardState extends State<Whiteboard> {
         selectedPoints = [transformedPoint];
         isDragging = true;
       }
+
+      if (widget.options.currentTool.isSelect) {
+        selectedPoints = [];
+        squareSelectTopLeft = transformedPoint.offset;
+        squareSelectBottomRight = Offset.zero;
+        isDragging = true;
+      }
     });
   }
 
@@ -164,8 +205,12 @@ class WhiteboardPainter extends CustomPainter {
   final List<Point> selectedPoints;
   final double scale;
   final Offset offset;
+  final Offset squareSelectTopLeft;
+  final Offset squareSelectBottomRight;
+  final double animationValue;
 
-  WhiteboardPainter(this.points, this.curves, this.selectedPoints, this.scale, this.offset);
+  WhiteboardPainter(this.points, this.curves, this.selectedPoints, this.scale, this.offset, this.squareSelectTopLeft,
+      this.squareSelectBottomRight, this.animationValue);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -256,7 +301,39 @@ class WhiteboardPainter extends CustomPainter {
       canvas.drawCircle(point.offset, 5, currentPaint);
     }
 
+    if (squareSelectTopLeft != Offset.zero && squareSelectBottomRight != Offset.zero) {
+      _drawAnimatedDashedRect(canvas, squareSelectTopLeft, squareSelectBottomRight, animationValue);
+    }
+
     canvas.restore();
+  }
+
+  void _drawAnimatedDashedRect(Canvas canvas, Offset topLeft, Offset bottomRight, double animationValue) {
+    final paint = Paint()
+      ..color = Colors.blue
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+
+    final path = Path();
+    path.moveTo(topLeft.dx, topLeft.dy);
+    path.lineTo(bottomRight.dx, topLeft.dy);
+    path.lineTo(bottomRight.dx, bottomRight.dy);
+    path.lineTo(topLeft.dx, bottomRight.dy);
+    path.close();
+
+    final dashWidth = 5.0;
+    final dashSpace = 5.0;
+    final totalDashLength = dashWidth + dashSpace;
+    final phase = animationValue * totalDashLength;
+
+    canvas.drawPath(
+      dashPath(
+        path,
+        dashArray: CircularIntervalList<double>(<double>[dashWidth, dashSpace]),
+        dashOffset: DashOffset.absolute(phase),
+      ),
+      paint,
+    );
   }
 
   @override
