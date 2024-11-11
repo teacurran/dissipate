@@ -50,9 +50,7 @@ class _WhiteboardState extends State<Whiteboard> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Listener(
-        onPointerMove: _onPointerMove,
-        child: GestureDetector(
+    return GestureDetector(
           onScaleStart: onScaleStart,
           onScaleUpdate: _onScaleUpdate,
           onTapDown: onTapDown,
@@ -72,8 +70,8 @@ class _WhiteboardState extends State<Whiteboard> with TickerProviderStateMixin {
                 ),
               );
             },
-          ),
-        ));
+        )
+    );
   }
 
   void onScaleStart(ScaleStartDetails details) {
@@ -113,6 +111,35 @@ class _WhiteboardState extends State<Whiteboard> with TickerProviderStateMixin {
     }
   }
 
+  void _onPanUpdate(DragUpdateDetails details) {
+    if (isDragging && selectedPoints.isNotEmpty) {
+      setState(() {
+        for (var point in selectedPoints) {
+          var newOffset = (details.localPosition - _offset) / _scale;
+          if (point.curves.isNotEmpty) {
+            for (var curve in point.curves) {
+              if (curve != null) {
+                if (curve.start == point.offset) {
+                  curve.start = newOffset;
+                  if (curve.controlStart != null) {
+                    curve.controlStart = (curve.controlStart! - _offset) / _scale;
+                  }
+                }
+                if (curve.end == point.offset) {
+                  curve.end = newOffset;
+                  if (curve.controlEnd != null) {
+                    curve.controlEnd = (curve.controlEnd! - _offset) / _scale;
+                  }
+                }
+              }
+            }
+          }
+          point.offset = newOffset;
+        }
+      });
+    }
+  }
+
   void _onScaleUpdate(ScaleUpdateDetails details) {
     Offset localOffset = (details.localFocalPoint - _offset) / _scale;
 
@@ -120,6 +147,33 @@ class _WhiteboardState extends State<Whiteboard> with TickerProviderStateMixin {
       if (widget.options.currentTool.isPen && isDragging && selectedPoints.isNotEmpty) {
         selectedPoints[0].offset = localOffset;
       } else if (widget.options.currentTool.isSelect && isDragging) {
+        if (squareSelectTopLeft != Offset.zero) {
+          squareSelectBottomRight = localOffset;
+        } else {
+          for (var point in selectedPoints) {
+            if (point.curves.isNotEmpty) {
+              for (var curve in point.curves) {
+                if (curve != null) {
+                  if (curve.start == point.offset) {
+                    curve.start = localOffset;
+                    if (curve.controlStart != null) {
+                      curve.controlStart = (curve.controlStart! - _offset) / _scale;
+                    }
+                  }
+                  if (curve.end == point.offset) {
+                    curve.end = localOffset;
+                    if (curve.controlEnd != null) {
+                      curve.controlEnd = (curve.controlEnd! - _offset) / _scale;
+                    }
+                  }
+                }
+              }
+            }
+            point.offset = localOffset;
+          }
+          // _scale = _previousScale * details.scale;
+          // _offset = details.focalPoint - _previousOffset;
+        }
         squareSelectBottomRight = localOffset;
       } else {
         _scale = _previousScale * details.scale;
@@ -164,8 +218,23 @@ class _WhiteboardState extends State<Whiteboard> with TickerProviderStateMixin {
 
       if (widget.options.currentTool.isSelect) {
         selectedPoints = [];
-        squareSelectTopLeft = transformedPoint.offset;
-        squareSelectBottomRight = Offset.zero;
+
+        for (var point in points) {
+          if (transformedPoint.offset.dx > point.offset.dx - 5 &&
+              transformedPoint.offset.dx < point.offset.dx + 5 &&
+              transformedPoint.offset.dy > point.offset.dy - 5 &&
+              transformedPoint.offset.dy < point.offset.dy + 5) {
+            selectedPoints.add(point);
+          }
+        }
+        if (selectedPoints.isEmpty) {
+          squareSelectTopLeft = transformedPoint.offset;
+          squareSelectBottomRight = Offset.zero;
+        } else {
+          squareSelectTopLeft = Offset.zero;
+          squareSelectBottomRight = Offset.zero;
+        }
+
         isDragging = true;
       }
     });
@@ -312,7 +381,7 @@ class WhiteboardPainter extends CustomPainter {
     final paint = Paint()
       ..color = Colors.blue
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
+      ..strokeWidth = 1;
 
     final path = Path();
     path.moveTo(topLeft.dx, topLeft.dy);
