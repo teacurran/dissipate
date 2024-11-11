@@ -53,12 +53,13 @@ class _WhiteboardState extends State<Whiteboard> with TickerProviderStateMixin {
     return GestureDetector(
           onScaleStart: onScaleStart,
           onScaleUpdate: _onScaleUpdate,
+          onScaleEnd: onScaleEnd,
           onTapDown: onTapDown,
           onTapUp: onTapUp,
           onLongPressStart: onLongPressStart,
           onLongPressMoveUpdate: _onLongPressMoveUpdate,
           onLongPressEnd: _onLongPressEnd,
-          child: AnimatedBuilder(
+        child: AnimatedBuilder(
             animation: _animation,
             builder: (context, _) {
               return Container(
@@ -80,6 +81,9 @@ class _WhiteboardState extends State<Whiteboard> with TickerProviderStateMixin {
     // if (selectedPoints.isNotEmpty) {
     //   isDragging = true;
     // }
+
+    //_handleTapOrPanDown(details.focalPoint);
+
   }
 
   void _onPointerMove(PointerMoveEvent event) {
@@ -194,9 +198,15 @@ class _WhiteboardState extends State<Whiteboard> with TickerProviderStateMixin {
     });
   }
 
-  void onTapDown(TapDownDetails details) {
+  void onScaleEnd(ScaleEndDetails details) {
     setState(() {
-      final transformedPoint = Point((details.localPosition - _offset) / _scale, []);
+      // isDragging = false;
+    });
+  }
+
+  void _handleTapOrPanDown(Offset localPosition) {
+    setState(() {
+      final transformedPoint = Point((localPosition - _offset) / _scale, []);
 
       if (widget.options.currentTool.isPen) {
         points.add(transformedPoint);
@@ -238,6 +248,14 @@ class _WhiteboardState extends State<Whiteboard> with TickerProviderStateMixin {
         isDragging = true;
       }
     });
+  }
+
+  void onTapDown(TapDownDetails details) {
+    _handleTapOrPanDown(details.localPosition);
+  }
+
+  void onPanDown(DragDownDetails details) {
+    //_handleTapOrPanDown(details.localPosition);
   }
 
   void onLongPressStart(LongPressStartDetails details) {
