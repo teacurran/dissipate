@@ -150,35 +150,18 @@ class _WhiteboardState extends State<Whiteboard> with TickerProviderStateMixin {
     setState(() {
       if (widget.options.currentTool.isPen && isDragging && selectedPoints.isNotEmpty) {
         selectedPoints[0].offset = localOffset;
+        _updateCurves(selectedPoints[0], localOffset);
       } else if (widget.options.currentTool.isSelect && isDragging) {
         if (squareSelectTopLeft != Offset.zero) {
           squareSelectBottomRight = localOffset;
         } else {
           for (var point in selectedPoints) {
-            if (point.curves.isNotEmpty) {
-              for (var curve in point.curves) {
-                if (curve != null) {
-                  if (curve.start == point.offset) {
-                    curve.start = localOffset;
-                    if (curve.controlStart != null) {
-                      curve.controlStart = (curve.controlStart! - _offset) / _scale;
-                    }
-                  }
-                  if (curve.end == point.offset) {
-                    curve.end = localOffset;
-                    if (curve.controlEnd != null) {
-                      curve.controlEnd = (curve.controlEnd! - _offset) / _scale;
-                    }
-                  }
-                }
-              }
-            }
+            _updateCurves(point, localOffset);
             point.offset = localOffset;
           }
           // _scale = _previousScale * details.scale;
           // _offset = details.focalPoint - _previousOffset;
         }
-        squareSelectBottomRight = localOffset;
       } else {
         _scale = _previousScale * details.scale;
         _offset = details.focalPoint - _previousOffset;
@@ -192,6 +175,25 @@ class _WhiteboardState extends State<Whiteboard> with TickerProviderStateMixin {
     });
   }
 
+  void _updateCurves(Point point, Offset newOffset) {
+    for (var curve in point.curves) {
+      if (curve != null) {
+        if (curve.start == point.offset) {
+          curve.start = newOffset;
+          if (curve.controlStart != null) {
+            curve.controlStart = (curve.controlStart! - _offset) / _scale;
+          }
+        }
+        if (curve.end == point.offset) {
+          curve.end = newOffset;
+          if (curve.controlEnd != null) {
+            curve.controlEnd = (curve.controlEnd! - _offset) / _scale;
+          }
+        }
+      }
+    }
+  }
+
   void onTapUp(TapUpDetails details) {
     setState(() {
       isDragging = false;
@@ -200,7 +202,7 @@ class _WhiteboardState extends State<Whiteboard> with TickerProviderStateMixin {
 
   void onScaleEnd(ScaleEndDetails details) {
     setState(() {
-      // isDragging = false;
+      isDragging = false;
     });
   }
 
